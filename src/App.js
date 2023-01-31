@@ -13,7 +13,7 @@ const choices = [
 function classNames(...classes){
   return classes.filter(Boolean).join('')
 }
-function Example() {
+function SelectForm() {
   const [selected, setSelected] = useState(choices[1])
   return (
     <Listbox value={selected} onChange={setSelected}>
@@ -103,7 +103,7 @@ export default function App() {
                 </label>
                 
                 <div className="mt-1">
-                  <Example/>
+                  <SelectForm/>
                 </div>
               </div>
 
@@ -112,7 +112,7 @@ export default function App() {
                   Assigned to
                 </label>
                 <div className="mt-1">
-                  <Example/>
+                  <SelectForm/>
                 </div>
               </div>
 
