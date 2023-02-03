@@ -2,6 +2,10 @@ import Link from 'next/link';
 import React from 'react';
 import { useForm, Controller } from "react-hook-form";
 import Layout from '../components/Layout';
+import { AuthLayout } from '../components/AuthLayout';
+import { Button } from '../components/Button';
+import { TextField } from '../components/Fields';
+
 //import {getSupportedTokens} from "./api/get_supported_tokens.ts"
 
 
@@ -9,6 +13,7 @@ import { Fragment, useState } from 'react'
 import {Listbox, Transition } from '@headlessui/react'
 import {CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid'
 
+//data for the dropdown
 const choices = [
 {id:1, name:'John'},
 {id:1, name:'Doe'},
