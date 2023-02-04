@@ -54,7 +54,8 @@
     "wagmi": "^0.11.2",
     "web-vitals": "^2.1.4",
     "web3": "^1.7.4",
-    "web3modal": "1.9.7"
+    "web3modal": "1.9.7",
+    "react-use-session": "^1.2.0" 
   },
   "devDependencies": {
     "@types/node": "18.11.18",
