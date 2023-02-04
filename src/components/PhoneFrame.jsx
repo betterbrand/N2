@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import clsx from 'clsx'
 
-import frame from '@/images/phone-frame.svg'
+import frame from '../images/phone-frame.svg'
 
 function PlaceholderFrame(props) {
   return (

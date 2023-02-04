@@ -9,7 +9,7 @@ import {
   useTransform,
 } from 'framer-motion'
 
-import { Container } from '@/components/Container'
+import { Container } from '../components/Container'
 
 const reviews = [
   {

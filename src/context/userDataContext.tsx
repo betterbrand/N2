@@ -1,7 +1,8 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import WalletConnectProvider from "@walletconnect/web3-provider";
 import Web3Modal from "web3modal";
-import { connectWallet } from "../connect_wallet/connect_wallet";
+import { connectWallet } from "../components/ConnectWallet";
+
 
 
 

@@ -1,11 +1,26 @@
 import axios from 'axios';
 
-export const getCheckHealth = async () => {
+async function getCheckHealth () {
     try {
-        const response = await axios.get("https://dev-api.thorswap.net/universal");
-        return response.data;
+        var ans=''
+        await axios.get("https://thornode.ninerealms.com/thorchain/ping")
+        .then(function(response){
+          ans=response.data
+          return ans
+        })
+        .catch(function(error){
+          ans=error
+            return ans
+        });
+        return ans;
+
       } catch (error) {
         console.error(error);
         return error;
       }
+}
+
+export function getHealth() {
+  const health = getCheckHealth();
+  return health;
 }
