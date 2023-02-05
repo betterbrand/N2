@@ -346,8 +346,9 @@ export function Hero() {
     const val = event.target.value
     getPoolInfo(val).then((data)=>{
       setSelectedOption(val) 
-      setPool(data.name)
+      setPool(data.status)
       console.log(val)
+      console.log(data.toString())
     })
 
   }
