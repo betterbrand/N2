@@ -360,7 +360,7 @@ export function Hero() {
       document.getElementById("quoteSpinner").style={display:"none"}
     })
   }
-  const addLiquid=(event)=>{
+  const addLiquid = (event)=>{
     addLiquidity(quote.inbound_address,amt).then((data)=>{
       console.log(data)
     })
@@ -399,7 +399,7 @@ export function Hero() {
       
             <div className="mt-8 flex flex-wrap gap-x-6 gap-y-4">
               <div className="relative -mt-4 lg:col-span-7 lg:mt-0 xl:col-span-6">
-                <p className="text-center text-blue-600 font-semibold text-gray-900 lg:text-left">
+                <p className="text-center text-sm text-blue-600 font-semibold text-gray-900 lg:text-left">
                   {quote.expected_amount_out}                
                 </p>
              
@@ -423,7 +423,6 @@ export function Hero() {
               <Button
               onClick={addLiquid}
                 variant="outline"
-              }
               >
                 <PlayIcon className="h-6 w-6 flex-none" />
                 <span className="ml-2.5">Add Liquidity</span>
