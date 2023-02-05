@@ -12,7 +12,7 @@ import { PhoneFrame } from '../components/PhoneFrame'
 import {gettokens} from '../pages/api/get_supported_tokens'
 import {getPoolInfo} from '../pages/api/get_pool_info'
 import {getTransactionStatus} from '../pages/api/get-transaction-status'
-import {getMinimumAmountToSend} from '../pages/api/get_minimum_amount_to_send'
+import {getMinimumAmount} from '../pages/api/get_minimum_amount_to_send'
 
 function BackgroundIllustration(props) {
   let id = useId()
@@ -336,28 +336,27 @@ export function Hero() {
   const [tokens, setTokens] = useState([])
   gettokens().then((data)=>{
     setTokens(data)
-    console.log(tokens.toString())
   })
   const [selectedOption, setSelectedOption] = useState('');
   const [pool,setPool] = useState('');
   const [status,setStatus]=useState('')
   const [quote,setQuote ]= useState('')
   const [amt,setAmt] = useState(0)
-  const handleToken =(event)=>{
-    console.log('kkk')
-    setSelectedOption(event.target.value)
-    console.log('lll')
-    getPoolInfo(selectedOption).then((data)=>{
-      console.log('kk')
+  const handleToken = (event)=>{
+    const val = event.target.value
+    getPoolInfo(val).then((data)=>{
+      setSelectedOption(val) 
       setPool(data.name)
-      console.log('k')
+      console.log(val)
     })
 
   }
   const getQuoteHandler = (event)=>{
-    getMinimumAmountToSend(selectedOption,amt).then((data)=>{
+    console.log(selectedOption)
+    document.getElementById("quoteSpinner").style={display:"inline-block"}
+    getMinimumAmount(selectedOption,amt).then((data)=>{
       setQuote(data)
-      console.log(data)
+      document.getElementById("quoteSpinner").style={display:"none"}
     })
   }
   useEffect(()=>{
@@ -373,7 +372,7 @@ export function Hero() {
             </h1>
             <br />
             <br />
-            <p>Selected Coin: {selectedOption}
+            <p id="pool">Selected Coin: {selectedOption}
             </p>
             <p className="mt-6 text-lg text-gray-600">
               
@@ -402,12 +401,16 @@ export function Hero() {
                   <input onChange={e => setAmt(e.target.value)}id="amountInput"value={amt}type="number" name = "amount" Input Amount />
                 </label>
               </div>
+              <div class="flex justify-center items-center ">
+                <div style={{display:"none"}} id = "quoteSpinner" class="spinner-border animate-spin inline-block w-8 h-8 border-4 rounded-full text-blue-600" role="status">
+                  <span class="visually-hidden">.</span>
+                </div>
+              </div>
               <Button
                 onClick={getQuoteHandler}
                 variant="outline"
               >
-                <PlayIcon className="h-6 w-6 flex-none" />
-                <span className="ml-2.5">Show Quote</span>
+              <span className="ml-2.5">Show Quote</span>
               </Button>
             </div>
             <div className="relative -mt-4 lg:col-span-7 lg:mt-0 xl:col-span-6">
