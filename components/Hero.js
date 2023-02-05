@@ -8,18 +8,10 @@ import { AppStoreLink } from '../components/AppStoreLink'
 import { Button } from '../components/Button'
 import { Container } from '../components/Container'
 import { PhoneFrame } from '../components/PhoneFrame'
-import logoBbc from '../public/logos/bbc.svg'
-import logoCbs from '../public/logos/cbs.svg'
-import logoCnn from '../public/logos/cnn.svg'
-import logoFastCompany from '../public/logos/fast-company.svg'
-import logoForbes from '../public/logos/forbes.svg'
-import logoHuffpost from '../public/logos/huffpost.svg'
-import logoTechcrunch from '../public/logos/techcrunch.svg'
-import logoWired from '../public/logos/wired.svg'
+
 import {gettokens} from '../pages/api/get_supported_tokens'
-import {addLiquidity} from '../pages/api/add_liquidity'
+import {getPoolInfo} from '../pages/api/get_pool_info'
 import {getTransactionStatus} from '../pages/api/get-transaction-status'
-import {getExchangeDetails} from '../pages/api/get-exhange-details'
 import {getMinimumAmountToSend} from '../pages/api/get_minimum_amount_to_send'
 
 function BackgroundIllustration(props) {
@@ -345,32 +337,31 @@ export function Hero() {
   gettokens().then((data)=>{
     setTokens(data)
     console.log(tokens.toString())
-    document.getElementById("tokenspin").style.display="none"
   })
-  const [selectedOption, setSelectedOption] = useState(tokens[0]);
-  const [selectedOptions,setSelectedOptions] = useState(tokens[0]);
+  const [selectedOption, setSelectedOption] = useState('');
+  const [pool,setPool] = useState('');
   const [status,setStatus]=useState('')
-  const [minAmtToSend,setminAmtToSend ]= useState(0)
-  const [exchangeDetails,setExchangeDetails] = useState({})
-  const getMinHandler = (event)=>{
-    getMinimumAmountToSend(selectedOption,selectedOptions).then((data)=>{
-      setminAmtToSend(data)
-      console.log(data)
-      getExchangeDetails(selectedOption,selectedOptions,minAmtToSend).then((data)=>{
-        setExchangeDetails(data)
-        console.log(data)
-      })
+  const [quote,setQuote ]= useState('')
+  const [amt,setAmt] = useState(0)
+  const handleToken =(event)=>{
+    console.log('kkk')
+    setSelectedOption(event.target.value)
+    console.log('lll')
+    getPoolInfo(selectedOption).then((data)=>{
+      console.log('kk')
+      setPool(data.name)
+      console.log('k')
     })
+
   }
-  const addLiquid=(event)=>{
-    addLiquidity(selectedOption,selectedOptions,minAmtToSend,exchangeDetails).then((data)=>{
-      getTransactionStatus(data).then((data)=>{
-        setStatus(data)
-      })
+  const getQuoteHandler = (event)=>{
+    getMinimumAmountToSend(selectedOption,amt).then((data)=>{
+      setQuote(data)
+      console.log(data)
     })
   }
   useEffect(()=>{
-    document.getElementById("amountInput").value = minAmtToSend
+    document.getElementById("amountInput").value = amt
   })
   return (
     <div className="overflow-hidden py-20 sm:py-32 lg:pb-32 xl:pb-36">
@@ -385,15 +376,11 @@ export function Hero() {
             <p>Selected Coin: {selectedOption}
             </p>
             <p className="mt-6 text-lg text-gray-600">
-              <div class="flex items-center justify-center" id="tokenspin">
-                <div class="spinner-border animate-spin inline-block w-8 h-8 border-4 rounded-full" role="status">
-                  <span class="visually-hidden">Loading...</span>
-                </div>
-              </div>
+              
             </p>
             <select
               value={selectedOption}
-              onChange={e => setSelectedOption(e.target.value)}
+              onChange={handleToken}
               >
               {tokens.map((token)=>
                 <option value={token.apiIdentifier}>{token.name}</option>
@@ -402,38 +389,29 @@ export function Hero() {
             <br />
             <br />
 
-            <p>Selected Coin2: {selectedOptions}
+            <p>Pool Information: {pool}
             </p>
-            <select
-              value={selectedOptions}
-              onChange={e => setSelectedOptions(e.target.value)}
-              >
-               {tokens.map((token)=>
-                <option value={token.apiIdentifier}>{token.name}</option>
-            )}
-            </select>
       
             <div className="mt-8 flex flex-wrap gap-x-6 gap-y-4">
               <div className="relative -mt-4 lg:col-span-7 lg:mt-0 xl:col-span-6">
                 <p className="text-center text-sm font-semibold text-gray-900 lg:text-left">
-              
+                  {quote.inbound_address}                
                 </p>
              
                 <label>Enter Amount:  
-                  <input onChange={e => setminAmtToSend(e.target.value)}id="amountInput"value={minAmtToSend}type="number" name = "amount" Input Amount />
+                  <input onChange={e => setAmt(e.target.value)}id="amountInput"value={amt}type="number" name = "amount" Input Amount />
                 </label>
               </div>
               <Button
-                onClick={getMinHandler}
+                onClick={getQuoteHandler}
                 variant="outline"
               >
                 <PlayIcon className="h-6 w-6 flex-none" />
-                <span className="ml-2.5">Check Liquidity</span>
+                <span className="ml-2.5">Show Quote</span>
               </Button>
             </div>
             <div className="relative -mt-4 lg:col-span-7 lg:mt-0 xl:col-span-6">
               <Button
-                onClick={addLiquid}
                 variant="outline"
               >
                 <PlayIcon className="h-6 w-6 flex-none" />
