@@ -1,4 +1,4 @@
-import { useId, useRef, useState } from 'react'
+import { useId, useRef, useState,useEffect } from 'react'
 import Image from 'next/image'
 import clsx from 'clsx'
 import { motion, useInView, useMotionValue } from 'framer-motion'
@@ -8,14 +8,12 @@ import { AppStoreLink } from '../components/AppStoreLink'
 import { Button } from '../components/Button'
 import { Container } from '../components/Container'
 import { PhoneFrame } from '../components/PhoneFrame'
-import logoBbc from '../images/logos/bbc.svg'
-import logoCbs from '../images/logos/cbs.svg'
-import logoCnn from '../images/logos/cnn.svg'
-import logoFastCompany from '../images/logos/fast-company.svg'
-import logoForbes from '../images/logos/forbes.svg'
-import logoHuffpost from '../images/logos/huffpost.svg'
-import logoTechcrunch from '../images/logos/techcrunch.svg'
-import logoWired from '../images/logos/wired.svg'
+
+import {gettokens} from '../functions/get_supported_tokens'
+import {addLiquidity} from '../functions/add_liquidity'
+import {getTransactionStatus} from '../functions/get-transaction-status'
+import {getPoolInfo} from '../functions/get_pool_info'
+import {getMinimumAmountToSend} from '../functions/get_minimum_amount_to_send'
 
 function BackgroundIllustration(props) {
   let id = useId()
@@ -334,8 +332,40 @@ function AppDemo() {
   )
 }
 
+
 export function Hero() {
-  const [selectedOption, setSelectedOption] = useState("Ethereum");
+  const [tokens, setTokens] = useState([])
+  gettokens().then((data)=>{
+    setTokens(data)
+    console.log(tokens.toString())
+    document.getElementById("tokenspin").style.display="none"
+  })
+  const [selectedOption, setSelectedOption] = useState(tokens[0]);
+  const [selectedOptions,setSelectedOptions] = useState(tokens[0]);
+  const [status,setStatus]=useState('')
+  const [minAmtToSend,setminAmtToSend ]= useState(0)
+  const [poolInfo,setPoolInfo] = useState({})
+
+  const getMinHandler = (event)=>{
+    getMinimumAmountToSend(selectedOption,selectedOptions).then((data)=>{
+      setminAmtToSend(data)
+      console.log(data)
+      getPoolInfo(selectedOption,sel).then((data)=>{
+        setPoolInfo(data)
+        console.log(data)
+      })
+    })
+  }
+  const addLiquid=(event)=>{
+    addLiquidity(selectedOption,selectedOptions,minAmtToSend,exchangeDetails).then((data)=>{
+      getTransactionStatus(data).then((data)=>{
+        setStatus(data)
+      })
+    })
+  }
+  useEffect(()=>{
+    document.getElementById("amountInput").value = minAmtToSend
+  })
   return (
     <div className="overflow-hidden py-20 sm:py-32 lg:pb-32 xl:pb-36">
       <Container>
@@ -348,62 +378,78 @@ export function Hero() {
             <br />
             <p>Selected Coin: {selectedOption}
             </p>
-            <p className="mt-6 text-lg text-gray-600"></p>
-            <select
-              value={selectedOption}
-              onChange={e => setSelectedOption(e.target.value)}
-              >
-            <option value="Ethereum">Ethereum</option>
-            <option value="Bitcoin">Bitcoin</option>
-            <option value="Dogecoin">Dogecoin</option>
-            <option value="Eggcoin">Eggcoin</option>
-            </select>
-            <br />
-            <br />
-
-            <p>Selected Coin2: {selectedOption}
+            <p className="mt-6 text-lg text-gray-600">
+              <div class="flex items-center justify-center" id="tokenspin">
+                <div class="spinner-border animate-spin inline-block w-8 h-8 border-4 rounded-full" role="status">
+                  <span class="visually-hidden">Loading...</span>
+                </div>
+              </div>
             </p>
             <select
               value={selectedOption}
               onChange={e => setSelectedOption(e.target.value)}
               >
-                
-            <option value="Ethereum">Ethereum</option>
-            <option value="Bitcoin">Bitcoin</option>
-            <option value="Dogecoin">Dogecoin</option>
-            <option value="Eggcoin">Eggcoin</option>
+              {tokens.map((token)=>
+                <option value={token.apiIdentifier}>{token.name}</option>
+            )}
+            </select>
+            <br />
+            <br />
+
+            <p>Selected Coin2: {selectedOptions}
+            </p>
+            <select
+              value={selectedOptions}
+              onChange={e => setSelectedOptions(e.target.value)}
+              >
+               {tokens.map((token)=>
+                <option value={token.apiIdentifier}>{token.name}</option>
+            )}
             </select>
       
             <div className="mt-8 flex flex-wrap gap-x-6 gap-y-4">
-              <AppStoreLink />
+              <div className="relative -mt-4 lg:col-span-7 lg:mt-0 xl:col-span-6">
+                <p className="text-center text-sm font-semibold text-gray-900 lg:text-left">
+              
+                </p>
+             
+                <label>Enter Amount:  
+                  <input onChange={e => setminAmtToSend(e.target.value)}id="amountInput"value={minAmtToSend}type="number" name = "amount" Input Amount />
+                </label>
+              </div>
               <Button
-                href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+                onClick={getMinHandler}
                 variant="outline"
               >
                 <PlayIcon className="h-6 w-6 flex-none" />
                 <span className="ml-2.5">Check Liquidity</span>
               </Button>
             </div>
+            <div className="relative -mt-4 lg:col-span-7 lg:mt-0 xl:col-span-6">
+              <Button
+                onClick={addLiquid}
+                variant="outline"
+              >
+                <PlayIcon className="h-6 w-6 flex-none" />
+                <span className="ml-2.5">Add Liquidity</span>
+              </Button>
+              <p>
+                {status}
+              </p>
+            </div>
           </div>
+
           <div className="relative mt-10 sm:mt-20 lg:col-span-5 lg:row-span-2 lg:mt-0 xl:col-span-6">
             <BackgroundIllustration className="absolute left-1/2 top-4 h-[1026px] w-[1026px] -translate-x-1/3 stroke-gray-300/70 [mask-image:linear-gradient(to_bottom,white_20%,transparent_75%)] sm:top-16 sm:-translate-x-1/2 lg:-top-16 lg:ml-12 xl:-top-14 xl:ml-0" />
             <div className="-mx-4 h-[448px] px-9 [mask-image:linear-gradient(to_bottom,white_60%,transparent)] sm:mx-0 lg:absolute lg:-inset-x-10 lg:-top-10 lg:-bottom-20 lg:h-auto lg:px-0 lg:pt-10 xl:-bottom-32">
               <PhoneFrame className="mx-auto max-w-[366px]" priority>
-                <AppDemo />
+                <AppDemo/>
               </PhoneFrame>
             </div>
-          </div>
-          <div className="relative -mt-4 lg:col-span-7 lg:mt-0 xl:col-span-6">
-            <p className="text-center text-sm font-semibold text-gray-900 lg:text-left">
-              
-            </p>
-             
-            <label>Enter Amount:  
-              <input type="number" value="Input Amount" Input Amount />
-            </label>
           </div>
         </div>
       </Container>
     </div>
   )
 }
+ 

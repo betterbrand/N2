@@ -1,4 +1,6 @@
 import axios from 'axios';
+import { ethers } from 'ethers';
+
 
 async function getQuoteToDeposit (asset1 : string, amount : number) {
     try {
@@ -8,7 +10,7 @@ async function getQuoteToDeposit (asset1 : string, amount : number) {
             {
                 params : {
                     "asset" : asset1,
-                    "amount" : amount
+                    "amount" : ethers.utils.parseEther(amount.toString())
                 }
             }
         ).then(function(response) {

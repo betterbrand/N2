@@ -19,7 +19,7 @@ async function getposition (asset : string, address : string) {
       }
 }
 
-export function getPoolInfo (asset : string) {
-    const poolInfo = getPoolInformation(asset);
+export function getPosiition (asset : string, address : string) {
+    const poolInfo = getposition(asset, address);
     return poolInfo;
 }
