@@ -13,6 +13,7 @@ import {gettokens} from '../pages/api/get_supported_tokens'
 import {getPoolInfo} from '../pages/api/get_pool_info'
 import {getTransactionStatus} from '../pages/api/get-transaction-status'
 import {getMinimumAmount} from '../pages/api/get_minimum_amount_to_send'
+import {addLiquidity} from '../pages/api/add_liquidity'
 
 function BackgroundIllustration(props) {
   let id = useId()
@@ -341,14 +342,12 @@ export function Hero() {
   const [pool,setPool] = useState('');
   const [status,setStatus]=useState('')
   const [quote,setQuote ]= useState('')
-  const [amt,setAmt] = useState(0)
+  const [amt,setAmt] = useState(1)
   const handleToken = (event)=>{
     const val = event.target.value
     getPoolInfo(val).then((data)=>{
       setSelectedOption(val) 
       setPool(data.status)
-      console.log(val)
-      console.log(data.toString())
     })
 
   }
@@ -356,8 +355,14 @@ export function Hero() {
     console.log(selectedOption)
     document.getElementById("quoteSpinner").style={display:"inline-block"}
     getMinimumAmount(selectedOption,amt).then((data)=>{
+      console.log(data)
       setQuote(data)
       document.getElementById("quoteSpinner").style={display:"none"}
+    })
+  }
+  const addLiquid=(event)=>{
+    addLiquidity(quote.inbound_address,amt).then((data)=>{
+      console.log(data)
     })
   }
   useEffect(()=>{
@@ -373,7 +378,7 @@ export function Hero() {
             </h1>
             <br />
             <br />
-            <p id="pool">Selected Coin: {selectedOption}
+            <p id="pool">Selected Coin: <p className="text-blue-600">{selectedOption}</p>
             </p>
             <p className="mt-6 text-lg text-gray-600">
               
@@ -389,13 +394,13 @@ export function Hero() {
             <br />
             <br />
 
-            <p>Pool Information: {pool}
+            <p>Pool Information: <p className="text-blue-600">{pool}</p>
             </p>
       
             <div className="mt-8 flex flex-wrap gap-x-6 gap-y-4">
               <div className="relative -mt-4 lg:col-span-7 lg:mt-0 xl:col-span-6">
-                <p className="text-center text-sm font-semibold text-gray-900 lg:text-left">
-                  {quote.inbound_address}                
+                <p className="text-center text-blue-600 font-semibold text-gray-900 lg:text-left">
+                  {quote.expected_amount_out}                
                 </p>
              
                 <label>Enter Amount:  
@@ -416,7 +421,9 @@ export function Hero() {
             </div>
             <div className="relative -mt-4 lg:col-span-7 lg:mt-0 xl:col-span-6">
               <Button
+              onClick={addLiquid}
                 variant="outline"
+              }
               >
                 <PlayIcon className="h-6 w-6 flex-none" />
                 <span className="ml-2.5">Add Liquidity</span>
@@ -440,4 +447,3 @@ export function Hero() {
     </div>
   )
 }
- 
