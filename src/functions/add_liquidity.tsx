@@ -7,12 +7,12 @@ interface SendAssetsToVaultResult {
   transactionHash?: string;
 }
 
-export const addLiquidity = async (vaultAddress: string, amount: BigNumber)  => {
+export const addLiquidity = async (vaultAddress: string, amount: number)  => {
   
 
   try {
       
-   
+    
 
   } catch (error : any) {
     console.error(`Failed to add liquidity: ${error.message}`);

@@ -10,7 +10,7 @@ async function getQuoteToDeposit (asset1 : string, amount : number) {
             {
                 params : {
                     "asset" : asset1,
-                    "amount" : ethers.utils.parseEther(amount.toString())
+                    "amount" : amount
                 }
             }
         ).then(function(response) {

@@ -5,7 +5,7 @@ async function getPoolInformation (asset : string) {
     try {
         var ans = '';
         console.log(`Asset :  ${asset}`)    
-        await axios.get(`https://thornode.ninerealms.com/thorchain/pool/BTC.BTC`, 
+        await axios.get(`https://thornode.ninerealms.com/thorchain/pool/${asset}`, 
                
             ).then(function(response) {
             console.log(`response : ${response}`);

@@ -15,6 +15,8 @@ import {getTransactionStatus} from '../functions/get-transaction-status'
 import {getPoolInfo} from '../functions/get_pool_info'
 import {getMinimumAmount} from '../functions/get_minimum_amount_to_send'
 
+
+
 function BackgroundIllustration(props) {
   let id = useId()
 
@@ -337,29 +339,32 @@ export function Hero() {
   const [tokens, setTokens] = useState([])
   gettokens().then((data)=>{
     setTokens(data)
-    console.log(tokens.toString())
   })
   const [selectedOption, setSelectedOption] = useState('');
   const [pool,setPool] = useState('');
   const [status,setStatus]=useState('')
   const [quote,setQuote ]= useState('')
-  const [amt,setAmt] = useState(0)
-  const handleToken =(event)=>{
-    console.log('kkk')
-    setSelectedOption(event.target.value)
-    console.log('lll')
-    getPoolInfo(selectedOption).then((data)=>{
-      console.log('kk')
-      console.log(`Quoute data : ${data}`)
-      setPool(data.name)
-      console.log('k')
+  const [amt,setAmt] = useState(1)
+  const handleToken = (event)=>{
+    const val = event.target.value
+    getPoolInfo(val).then((data)=>{
+      setSelectedOption(val) 
+      setPool(data.status)
     })
 
   }
   const getQuoteHandler = (event)=>{
-    getMinimumAmount(selectedOption, amt).then((data)=>{
+    console.log(selectedOption)
+    document.getElementById("quoteSpinner").style={display:"inline-block"}
+    getMinimumAmount(selectedOption,amt).then((data)=>{
+      console.log(data)
       setQuote(data)
-      console.log(`Quoute data : ${data}`)
+      document.getElementById("quoteSpinner").style={display:"none"}
+    })
+  }
+  const addLiquid = (event)=>{
+    addLiquidity(quote.inbound_address,amt).then((data)=>{
+      console.log(data)
     })
   }
   useEffect(()=>{
@@ -375,7 +380,7 @@ export function Hero() {
             </h1>
             <br />
             <br />
-            <p>Selected Coin: {selectedOption}
+            <p id="pool">Selected Coin: <p className="text-blue-600">{selectedOption}</p>
             </p>
             <p className="mt-6 text-lg text-gray-600">
               
@@ -391,29 +396,34 @@ export function Hero() {
             <br />
             <br />
 
-            <p>Pool Information: {pool}
+            <p>Pool Information: <p className="text-blue-600">{pool}</p>
             </p>
       
             <div className="mt-8 flex flex-wrap gap-x-6 gap-y-4">
               <div className="relative -mt-4 lg:col-span-7 lg:mt-0 xl:col-span-6">
-                <p className="text-center text-sm font-semibold text-gray-900 lg:text-left">
-                  {quote.inbound_address}                
+                <p className="text-center text-sm text-blue-600 font-semibold text-gray-900 lg:text-left">
+                  {`Expected Amount out :  ${quote.expected_amount_out}`}                
                 </p>
              
                 <label>Enter Amount:  
                   <input onChange={e => setAmt(e.target.value)}id="amountInput"value={amt}type="number" name = "amount" Input Amount />
                 </label>
               </div>
+              <div class="flex justify-center items-center ">
+                <div style={{display:"none"}} id = "quoteSpinner" class="spinner-border animate-spin inline-block w-8 h-8 border-4 rounded-full text-blue-600" role="status">
+                  <span class="visually-hidden">.</span>
+                </div>
+              </div>
               <Button
                 onClick={getQuoteHandler}
                 variant="outline"
               >
-                <PlayIcon className="h-6 w-6 flex-none" />
-                <span className="ml-2.5">Show Quote</span>
+              <span className="ml-2.5">Show Quote</span>
               </Button>
             </div>
             <div className="relative -mt-4 lg:col-span-7 lg:mt-0 xl:col-span-6">
               <Button
+              onClick={addLiquid}
                 variant="outline"
               >
                 <PlayIcon className="h-6 w-6 flex-none" />
