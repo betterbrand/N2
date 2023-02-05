@@ -1,15 +1,20 @@
 import axios from 'axios';
+import { Console } from 'console';
 
 async function getPoolInformation (asset : string) {
     try {
         var ans = '';
-        await axios.get(`https://thornode.ninerealms.com/thorchain/quote/saver/deposit/${asset}`, 
+        console.log(`Asset :  ${asset}`)    
+        await axios.get(`https://thornode.ninerealms.com/thorchain/pool/BTC.BTC`, 
                
             ).then(function(response) {
+            console.log(`response : ${response}`);
+            
             ans=response.data
             return ans
             }).catch(function(error){
                 ans=error
+                console.log(error);
                 return ans
             });
             return ans;
