@@ -361,9 +361,10 @@ export function Hero() {
   }
   const getQuoteHandler = (event)=>{
     if(amt>=10000){
+      const toke = tokens.filter(obj=>obj.apiIdentifier===selectedOption)
       console.log(selectedOption)
       document.getElementById("quoteSpinner").className="flex justify-center items-center inline-block"
-      getMinimumAmount(selectedOption,amt).then((data)=>{
+      getMinimumAmount(selectedOption,amt,toke.decimals).then((data)=>{
         console.log(data)
         setQuote(data)
         setQuoteError('')       
@@ -385,7 +386,8 @@ export function Hero() {
   }
   const addLiquid = (event)=>{
     if(quoteError.length==0){
-      addLiquidity(quote.inbound_address,amt).then((data)=>{
+      const item = tokens.filter(obj=>obj.apiIdentifier===selectedOption)
+      addLiquidity(quote.inbound_address,amt,item.chainId).then((data)=>{
         console.log(data)
       })
     }
