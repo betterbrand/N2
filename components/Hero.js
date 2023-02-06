@@ -335,14 +335,22 @@ function AppDemo() {
 
 export function Hero() {
   const [tokens, setTokens] = useState([])
-  gettokens().then((data)=>{
-    setTokens(data)
-  })
-  const [selectedOption, setSelectedOption] = useState('');
   const [pool,setPool] = useState('');
+  if(tokens.length==0){
+    gettokens().then((data)=>{
+      setTokens(data)
+      getPoolInfo('AVAX.AVAX').then((data)=>{
+        setPool(data.status)
+    })
+    })
+  }
+  
+  const [selectedOption, setSelectedOption] = useState('AVAX.AVAX');
+  
   const [status,setStatus]=useState('')
   const [quote,setQuote ]= useState('')
   const [amt,setAmt] = useState(1)
+  const [quoteError,setQuoteError] = useState('')
   const handleToken = (event)=>{
     const val = event.target.value
     getPoolInfo(val).then((data)=>{
@@ -352,22 +360,37 @@ export function Hero() {
 
   }
   const getQuoteHandler = (event)=>{
-    console.log(selectedOption)
-    document.getElementById("quoteSpinner").style={display:"inline-block"}
-    getMinimumAmount(selectedOption,amt).then((data)=>{
-      console.log(data)
-      setQuote(data)
-      document.getElementById("quoteSpinner").style={display:"none"}
-    })
+    if(amt>=10000){
+      console.log(selectedOption)
+      document.getElementById("quoteSpinner").className="flex justify-center items-center inline-block"
+      getMinimumAmount(selectedOption,amt).then((data)=>{
+        console.log(data)
+        setQuote(data)
+        setQuoteError('')       
+        document.getElementById("quoteSpinner").className="flex justify-center items-center hidden"
+      }).catch((error)=>{
+        setQuoteError(error)
+        document.getElementById("quoteSpinner").className="flex justify-center items-center hidden"
+      })
+    }else{
+      document.getElementById("aLabel").className="text-red-600"
+    }
+  }
+  const amtChange = (e)=>{
+    const val =e.target.value
+    setAmt(val)
+    if(val>10000){
+      document.getElementById("aLabel").className="text-black-600"
+    }    
   }
   const addLiquid = (event)=>{
-    addLiquidity(quote.inbound_address,amt).then((data)=>{
-      console.log(data)
-    })
+    if(quoteError.length==0){
+      addLiquidity(quote.inbound_address,amt).then((data)=>{
+        console.log(data)
+      })
+    }
   }
-  useEffect(()=>{
-    document.getElementById("amountInput").value = amt
-  })
+  
   return (
     <div className="overflow-hidden py-20 sm:py-32 lg:pb-32 xl:pb-36">
       <Container>
@@ -378,7 +401,7 @@ export function Hero() {
             </h1>
             <br />
             <br />
-            <p id="pool">Selected Coin: <p className="text-blue-600">{selectedOption}</p>
+            <p id="pool">Selected Coin: <span className="text-blue-600">{selectedOption}</span>
             </p>
             <p className="mt-6 text-lg text-gray-600">
               
@@ -394,22 +417,26 @@ export function Hero() {
             <br />
             <br />
 
-            <p>Pool Information: <p className="text-blue-600">{pool}</p>
+            <p>Pool Information: <span className="text-blue-600">{pool}</span>
             </p>
       
             <div className="mt-8 flex flex-wrap gap-x-6 gap-y-4">
               <div className="relative -mt-4 lg:col-span-7 lg:mt-0 xl:col-span-6">
-                <p className="text-center text-sm text-blue-600 font-semibold text-gray-900 lg:text-left">
-                  {quote.expected_amount_out}                
-                </p>
-             
-                <label>Enter Amount:  
-                  <input onChange={e => setAmt(e.target.value)}id="amountInput"value={amt}type="number" name = "amount" Input Amount />
+
+                <label id="aLabel">Enter Amount:  
+                  <input min="10000" onChange={amtChange}id="amountInput"type="number" name = "amount" Input Amount />
                 </label>
+
               </div>
-              <div class="flex justify-center items-center ">
-                <div style={{display:"none"}} id = "quoteSpinner" class="spinner-border animate-spin inline-block w-8 h-8 border-4 rounded-full text-blue-600" role="status">
-                  <span class="visually-hidden">.</span>
+              <div className="relative -mt-4 lg:col-span-7 lg:mt-0 xl:col-span-6">
+                <p className="text-sm text-blue-600 font-semibold text-gray-900 lg:text-left">
+                  Expected Amount Out:              {quote.expected_amount_out}                    
+                  <span className="text-red-600">{quoteError}{quote.error}</span>         
+                </p>
+              </div>
+              <div className="flex justify-center items-center hidden" id = "quoteSpinner">
+                <div  className="spinner-border animate-spin inline-block w-4 h-4 border-4 rounded-full text-blue-600" role="status">
+                  <span className="visually-hidden">.</span>
                 </div>
               </div>
               <Button
@@ -424,7 +451,6 @@ export function Hero() {
               onClick={addLiquid}
                 variant="outline"
               >
-                <PlayIcon className="h-6 w-6 flex-none" />
                 <span className="ml-2.5">Add Liquidity</span>
               </Button>
               <p>
@@ -434,12 +460,9 @@ export function Hero() {
           </div>
 
           <div className="relative mt-10 sm:mt-20 lg:col-span-5 lg:row-span-2 lg:mt-0 xl:col-span-6">
-            <BackgroundIllustration className="absolute left-1/2 top-4 h-[1026px] w-[1026px] -translate-x-1/3 stroke-gray-300/70 [mask-image:linear-gradient(to_bottom,white_20%,transparent_75%)] sm:top-16 sm:-translate-x-1/2 lg:-top-16 lg:ml-12 xl:-top-14 xl:ml-0" />
-            <div className="-mx-4 h-[448px] px-9 [mask-image:linear-gradient(to_bottom,white_60%,transparent)] sm:mx-0 lg:absolute lg:-inset-x-10 lg:-top-10 lg:-bottom-20 lg:h-auto lg:px-0 lg:pt-10 xl:-bottom-32">
-              <PhoneFrame className="mx-auto max-w-[366px]" priority>
-                <AppDemo/>
-              </PhoneFrame>
-            </div>
+            <Image src="/betterbrand-logos_transparent.png" alt="NetworkNation"layout="fill"
+            objectFit="cover"
+            quality={100}/>
           </div>
         </div>
       </Container>
