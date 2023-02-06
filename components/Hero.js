@@ -359,10 +359,11 @@ export function Hero() {
     })
 
   }
+  const search = option => tokens.find(obj=>obj.apiIdentifier===option);
   const getQuoteHandler = (event)=>{
     if(amt>=10000){
-      const toke = tokens.filter(obj=>obj.apiIdentifier===selectedOption)
-      console.log(selectedOption)
+      const toke = search(selectedOption)
+      console.log(toke.decimals)
       document.getElementById("quoteSpinner").className="flex justify-center items-center inline-block"
       getMinimumAmount(selectedOption,amt,toke.decimals).then((data)=>{
         console.log(data)
@@ -386,7 +387,7 @@ export function Hero() {
   }
   const addLiquid = (event)=>{
     if(quoteError.length==0){
-      const item = tokens.filter(obj=>obj.apiIdentifier===selectedOption)
+      const item = search(selectedOption)
       addLiquidity(quote.inbound_address,amt,item.chainId).then((data)=>{
         console.log(data)
       })
