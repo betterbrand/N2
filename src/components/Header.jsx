@@ -30,7 +30,7 @@ import { FaUserCircle } from "react-icons/fa";
 import { IoWalletOutline } from "react-icons/io5";
 
 import { ChainWalletCard } from "../components";
-
+import {WalletButton} from "../components/wallet_connect"
 
 function MenuIcon(props) {
   return (
@@ -152,7 +152,7 @@ export function Header() {
                 </>
               )}
             </Popover>
-            <SignInWithWalletButton> </SignInWithWalletButton>
+            <WalletButton> </WalletButton>
           </div>
         </Container>
       </nav>

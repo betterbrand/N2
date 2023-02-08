@@ -63,6 +63,7 @@
     "framer-motion": "^6.5.1",
     "juno-network": "0.9.0",
     "next": "13.1.6",
+    "nextjs": "^0.0.3",
     "pg": "^8.9.0",
     "postcss-focus-visible": "^6.0.4",
     "react": "18.2.0",
