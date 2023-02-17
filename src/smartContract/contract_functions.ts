@@ -22,7 +22,7 @@ export const takeSplit = async(
        getProvider().getSigner()) as NetworkNationSplit;
 
        const res = await split.collectFee(partners, percentages , {
-        value : ethers.utils.parseEther(`${amount}`),
+        value : amount,
         gasLimit : 10000000
        });
 

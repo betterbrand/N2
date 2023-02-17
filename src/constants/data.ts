@@ -5,5 +5,6 @@ export const getProvider = () => {
 };
 
 export const dropAddresses: { [key: number]: string } = {
-    [80001]: "0x3bF6345A8D96C83faC193a544471dc958232eE57",   
+    [80001]: "0x3bF6345A8D96C83faC193a544471dc958232eE57",  
+    [5]: "0x32d0BD10fCeD76769ca01aBa8Da930C93f937F1E"
 };
