@@ -51,14 +51,14 @@ export function Hero() {
   const getInboundAddress = () => {
     const toke = search(selectedOption)
     getInboundAddressDetails(toke.ticker).then((data) => {
-      console.log(`Data Inbound : ${data}`)
-      setInboundAddress(data.address)
+      console.log(`Data Inbound : ${data.router}`)
+      setInboundAddress(data)
     })
     
   }
   const search = option => tokens.find(obj=>obj.apiIdentifier===option);
   const getQuoteHandler = (event)=>{
-    
+      getInboundAddress();
       const toke = search(selectedOption)
       console.log(toke.decimals )
       document.getElementById("quoteSpinner").className="flex justify-center items-center inline-block"
@@ -88,13 +88,14 @@ export function Hero() {
       const item = search(selectedOption)
       console.log(`amount in page: ${item.decimals}`)
 
-      getInboundAddress();
+      
 
       addLiquidity(quote.inbound_address,
         amt, 
         item.ticker, 
         inboundaddress.address, 
         inboundaddress.router, 
+        inboundaddress.memo,
         item.decimals).then((data)=>{
         console.log(data)
       })
