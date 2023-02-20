@@ -105,19 +105,15 @@ export function Hero() {
   return (
     <div className="overflow-hidden py-20 sm:py-32 lg:pb-32 xl:pb-36">
       <Container>
-        <div className="lg:grid lg:grid-cols-12 lg:gap-x-8 lg:gap-y-20">
-          <div className="relative z-10 mx-auto max-w-2xl lg:col-span-7 lg:max-w-none lg:pt-6 xl:col-span-6">
+        <div className="flex justify-center ">
+          <div className=" xl:col-span-2 border">
             <h1 className="text-4xl font-medium tracking-tight text-gray-900">
               Stake For Freedom
             </h1>
-            <br />
-            <br />
-            <p id="pool">Selected Coin: <span className="text-blue-600">{selectedOption}</span>
-            </p>
             <p className="mt-6 text-lg text-gray-600">
               
             </p>
-            <select
+            <select className='border p-3'
               value={selectedOption}
               onChange={handleToken}
               >
@@ -125,6 +121,10 @@ export function Hero() {
                 <option value={token.apiIdentifier}>{token.name}</option>
             )}
             </select>
+            <br />
+            <br />
+            <p id="pool">Selected Coin: <span className="text-blue-600">{selectedOption}</span>
+            </p>
             <br />
             <br />
 
@@ -135,7 +135,7 @@ export function Hero() {
               <div className="relative -mt-4 lg:col-span-7 lg:mt-0 xl:col-span-6">
 
                 <label id="aLabel">Enter Amount:  
-                  <input  onChange={amtChange}id="amountInput"type="number" name = "amount" Input Amount />
+                  <input className='border' onChange={amtChange}id="amountInput"type="number"  name = "amount" Input Amount />
                 </label>
 
               </div>
@@ -171,9 +171,7 @@ export function Hero() {
           </div>
 
           <div className="relative mt-10 sm:mt-20 lg:col-span-5 lg:row-span-2 lg:mt-0 xl:col-span-6">
-            <Image src="/betterbrand-logos_transparent.png" alt="NetworkNation"layout="fill"
-            objectFit="cover"
-            quality={100}/>
+            
           </div>
         </div>
       </Container>
