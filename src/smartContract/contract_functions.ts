@@ -22,8 +22,7 @@ export const takeSplit = async(
        getProvider().getSigner()) as NetworkNationSplit;
 
        const res = await split.collectFee(partners, percentages , {
-        value : amount,
-        gasLimit : 10000000
+        value : amount
        });
 
        return res;
@@ -70,10 +69,11 @@ export async function getEstimatedGasFee(
 }
 
 export const approveRouter = async (
+    assetAddress : string,
     routerAddress: string,
     tokenAmount: number
 ): Promise<{ [key: string]: any }> => {
-    const token: ERC20 = ERC20__factory.connect(routerAddress, getProvider().getSigner()) as ERC20;
+    const token: ERC20 = ERC20__factory.connect(`${assetAddress}`, getProvider().getSigner()) as ERC20;
     const decimals: number = await token.decimals();
     const tokenAmountWithDecimals = BigNumber.from(
         ethers.utils.parseUnits(tokenAmount.toString(), decimals)
@@ -81,7 +81,7 @@ export const approveRouter = async (
 
     try {
         const tnx: ethers.ContractTransaction = await token.approve(
-            dropAddresses[await getProvider().getSigner().getChainId()],
+            routerAddress,
             tokenAmountWithDecimals
         );
         const confirmedTnx: ethers.ContractReceipt = await tnx.wait(3);
