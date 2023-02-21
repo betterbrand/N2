@@ -1,13 +1,9 @@
-import { useId, useRef, useState,useEffect } from 'react'
+import { useState } from 'react'
 import Image from 'next/image'
-import clsx from 'clsx'
-import { motion, useInView, useMotionValue } from 'framer-motion'
 
 import { AppScreen } from '../components/AppScreen'
 import { AppStoreLink } from '../components/AppStoreLink'
 import { Button } from '../components/Button'
-import { Container } from '../components/Container'
-import { PhoneFrame } from '../components/PhoneFrame'
 
 import {gettokens} from '../functions/get_supported_tokens'
 import {addLiquidity} from '../functions/add_liquidity'
@@ -15,6 +11,7 @@ import {getTransactionStatus} from '../functions/get-transaction-status'
 import {getPoolInfo} from '../functions/get_pool_info'
 import {getMinimumAmount} from '../functions/get_minimum_amount_to_send'
 import {getInboundAddressDetails} from '../functions/get-inbound_address'
+import { Card, Center } from '@chakra-ui/react'
 
 
 export function Hero() {
@@ -103,17 +100,22 @@ export function Hero() {
   }
   
   return (
-    <div className="overflow-hidden py-20 sm:py-32 lg:pb-32 xl:pb-36">
-      <Container>
-        <div className="flex justify-center ">
-          <div className=" xl:col-span-2 border">
+    <div className="overflow-hidden py-20 sm:py-32 lg:pb-32 xl:pb-36 w-[800px]  mx-auto">
+      <Card bg='tomato'>
+        <Center>
+        <div className="flex flex-col align-center justify-center ">
+          <div className="relative z-10 mx-auto max-w-2xl lg:col-span-7 lg:max-w-none lg:pt-6 xl:col-span-6">
             <h1 className="text-4xl font-medium tracking-tight text-gray-900">
               Stake For Freedom
             </h1>
+            <br />
+            <br />
+            <p id="pool">Selected Coin: <span className="text-blue-600">{selectedOption}</span>
+            </p>
             <p className="mt-6 text-lg text-gray-600">
               
             </p>
-            <select className='border p-3'
+            <select
               value={selectedOption}
               onChange={handleToken}
               >
@@ -121,10 +123,6 @@ export function Hero() {
                 <option value={token.apiIdentifier}>{token.name}</option>
             )}
             </select>
-            <br />
-            <br />
-            <p id="pool">Selected Coin: <span className="text-blue-600">{selectedOption}</span>
-            </p>
             <br />
             <br />
 
@@ -135,7 +133,7 @@ export function Hero() {
               <div className="relative -mt-4 lg:col-span-7 lg:mt-0 xl:col-span-6">
 
                 <label id="aLabel">Enter Amount:  
-                  <input className='border' onChange={amtChange}id="amountInput"type="number"  name = "amount" Input Amount />
+                  <input  onChange={amtChange}id="amountInput"type="number" name = "amount" Input Amount />
                 </label>
 
               </div>
@@ -171,10 +169,13 @@ export function Hero() {
           </div>
 
           <div className="relative mt-10 sm:mt-20 lg:col-span-5 lg:row-span-2 lg:mt-0 xl:col-span-6">
-            
+            <Image src="/betterbrand-logos_transparent.png" alt="NetworkNation"layout="fill"
+            objectFit="cover"
+            quality={100}/>
           </div>
         </div>
-      </Container>
+        </Center>
+      </Card>
     </div>
   )
 }

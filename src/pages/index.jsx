@@ -22,8 +22,8 @@ export default function Home() {
       </Head>
       <Header />
       <main>
-        <Hero />
-       
+        <LandingPage />
+
       </main>
     
     </>

@@ -63,7 +63,7 @@ import {
       <WalletConnectComponent
         walletStatus={status}
         disconnect={
-          <Disconnected buttonText="Connect Wallet" onClick={onClickConnect} />
+          <Disconnected buttonText="Connect Wallets" onClick={onClickConnect} />
         }
         connecting={<Connecting />}
         connected={

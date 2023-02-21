@@ -42,6 +42,7 @@ import {
             size="md"
             marginTop={6}
             marginBottom={2}
+            textColor="white"
           />
         );
       }
@@ -66,7 +67,7 @@ import {
               {username}
             </Button>
             <Button
-              colorScheme="teal"
+              color="white"
               onClick={async () => {
                 await disconnect();
                 setGlobalStatus(WalletStatus.Disconnected);
@@ -82,11 +83,12 @@ import {
         <Button
           isLoading={false}
           loadingText={`Connecting ${wallet?.prettyName}`}
-          colorScheme="teal"
           size="md"
           marginTop={6}
           marginBottom={2}
           onClick={() => connect()}
+          className="text-white"
+          colorScheme='yellow' color='white'
         >
           Connect Wallet
         </Button>

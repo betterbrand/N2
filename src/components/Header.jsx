@@ -1,9 +1,10 @@
 import Link from 'next/link'
 import { Popover } from '@headlessui/react'
 import { AnimatePresence, motion } from 'framer-motion'
+import Image from 'next/image'
 
 import { Container } from './Container'
-import { Logo } from './Logo'
+import Logo  from '../images/logos/logo.jpg'
 import { NavLinks } from './NavLinks'
 
 
@@ -109,15 +110,17 @@ user.provider?.provider.on("disconnect", (code, reason) => {
 });
   
   return (
-    <header>
+    <header className='bg-gray-900'>
       <nav>
-        <Container className="relative z-50 flex justify-between py-8">
+        <Container className="relative z-50 flex justify-between py-8 bg-gray-900">
           <div className="relative z-10 flex items-center gap-16">
-          <img
-            className="mx-auto h-12 w-auto"
-            src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-            alt="NetworkNation"
-          />
+            <Image
+              src={Logo}
+              alt="Picture of the author"
+              width={500}
+              height={500}
+              className="mx-auto h-8 w-auto"
+            />
             <div className="hidden lg:flex lg:gap-10">
               <NavLinks/>
             </div>
