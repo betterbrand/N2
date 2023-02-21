@@ -1,13 +1,9 @@
-import { useId, useRef, useState,useEffect } from 'react'
+import { useState } from 'react'
 import Image from 'next/image'
-import clsx from 'clsx'
-import { motion, useInView, useMotionValue } from 'framer-motion'
 
 import { AppScreen } from '../components/AppScreen'
 import { AppStoreLink } from '../components/AppStoreLink'
 import { Button } from '../components/Button'
-import { Container } from '../components/Container'
-import { PhoneFrame } from '../components/PhoneFrame'
 
 import {gettokens} from '../functions/get_supported_tokens'
 import {addLiquidity} from '../functions/add_liquidity'
@@ -15,6 +11,7 @@ import {getTransactionStatus} from '../functions/get-transaction-status'
 import {getPoolInfo} from '../functions/get_pool_info'
 import {getMinimumAmount} from '../functions/get_minimum_amount_to_send'
 import {getInboundAddressDetails} from '../functions/get-inbound_address'
+import { Card, Center } from '@chakra-ui/react'
 
 
 export function Hero() {
@@ -102,9 +99,10 @@ export function Hero() {
   }
   
   return (
-    <div className="overflow-hidden py-20 sm:py-32 lg:pb-32 xl:pb-36">
-      <Container>
-        <div className="lg:grid lg:grid-cols-12 lg:gap-x-8 lg:gap-y-20">
+    <div className="overflow-hidden py-20 sm:py-32 lg:pb-32 xl:pb-36 w-[800px]  mx-auto">
+      <Card bg='tomato'>
+        <Center>
+        <div className="flex flex-col align-center justify-center ">
           <div className="relative z-10 mx-auto max-w-2xl lg:col-span-7 lg:max-w-none lg:pt-6 xl:col-span-6">
             <h1 className="text-4xl font-medium tracking-tight text-gray-900">
               Stake For Freedom
@@ -175,7 +173,8 @@ export function Hero() {
             quality={100}/>
           </div>
         </div>
-      </Container>
+        </Center>
+      </Card>
     </div>
   )
 }

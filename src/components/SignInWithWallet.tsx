@@ -66,11 +66,11 @@ export const SignInWithWalletButton = () => {
         <>
             <ModalChain open={open} setOpen={setOpen} message={message} />
             {user.connected ? (
-                <button className="secondaryButton" onClick={disconnect}>
+                <button className="secondaryButton text-white" onClick={disconnect}>
                     Disconnect Wallet
                 </button>
             ) : (
-                <button disabled={walletisConnecting} className="primaryButton" onClick={connect}>
+                <button disabled={walletisConnecting} className="primaryButton text-white" onClick={connect}>
                     {walletisConnecting ? "Connecting..." : "Connect Wallet"}
                 </button>
             )}
