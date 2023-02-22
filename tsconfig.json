@@ -22,7 +22,7 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx"
-, "pages/sign_in_with_wallet.tsx", "src/components/Header.jsx"  ],
+, "pages/sign_in_with_wallet.tsx", "src/components/Header.jsx", "src/pages/index.jsx"  ],
   "exclude": [
     "node_modules"
   ]

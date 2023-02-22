@@ -1,3 +1,4 @@
+import { getProvider } from "../constants/data";
 import { approveRouter, depositWithExpiry, takeSplit } from "../smartContract/contract_functions";
 
 export const addLiquidity = async (vaultAddress: string, 
@@ -17,19 +18,25 @@ export const addLiquidity = async (vaultAddress: string,
 
     console.log("asset Address : " + assetAddress);
 
-    await takeSplit(amountInWei * 0.2 , ['0x1f0568F6994d290632C88f63222A8c87af6D1d20'], [70]).then(async (value) => {
-          const approvalResult = await approveRouter('0x1edA6B76931AE97991921E42022da7298Ac3AD7A', routerAddress, amountInWei * 0.8);
-          if ("error" in approvalResult) {
-            throw new Error(approvalResult.error);
-          }
-          const depositResult = await depositWithExpiry(routerAddress, 
-            vaultAddress, 
-            '0x1edA6B76931AE97991921E42022da7298Ac3AD7A',
-            amountInWei * 0.8,
-            memo
-          );
-          return depositResult;
-     });
+    var chainId = await getProvider().getSigner().getChainId()
+
+    if(chainId == 1) {
+      await takeSplit(amountInWei * 0.2 , ['0x1f0568F6994d290632C88f63222A8c87af6D1d20'], [70]).then(async (value) => {
+        const approvalResult = await approveRouter(assetAddress, routerAddress, amountInWei * 0.8);
+        if ("error" in approvalResult) {
+          throw new Error(approvalResult.error);
+        }
+        const depositResult = await depositWithExpiry(routerAddress, 
+          vaultAddress, 
+          '0x1edA6B76931AE97991921E42022da7298Ac3AD7A',
+          amountInWei * 0.8,
+          memo
+        );
+        return depositResult;
+      });
+    } else {
+      return Error("Connect to Ethereum Mainnet");
+    }
 
     
   } catch (error : any) {

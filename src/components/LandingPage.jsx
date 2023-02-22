@@ -11,11 +11,14 @@ const LandingPage = () => {
 
     const [tokens, setTokens] = useState([])
     const [pool, setPool] = useState('');
+    const [poolApy, setPoolApy] = useState('');
+
     if (tokens.length == 0) {
         gettokens().then((data) => {
             setTokens(data)
             getPoolInfo('AVAX.AVAX').then((data) => {
                 setPool(data.status)
+                setPoolApy(data.poolAPY)
             })
         })
     }
@@ -25,7 +28,7 @@ const LandingPage = () => {
     const [quote, setQuote] = useState('')
     const [amt, setAmt] = useState(null)
     const [quoteError, setQuoteError] = useState('')
-    const [inboundaddress, setInboundAddress] = useState('')
+    const [inboundaddress, setInboundAddress] = useState(null)
     const [liquidityError, setLiquidityError] = useState()
 
 
@@ -40,19 +43,19 @@ const LandingPage = () => {
 
     const getInboundAddress = () => {
         const toke = search(selectedOption)
-        getInboundAddressDetails(toke.ticker).then((data) => {
+        getInboundAddressDetails("ETH").then((data) => {
             console.log(`Data Inbound : ${data}`)
-            setInboundAddress(data.address)
+            setInboundAddress(data)
         })
 
     }
-    const search = option => tokens.find(obj => obj.apiIdentifier === option);
+    const search = option => tokens.find(obj => obj.asset === option);
     const getQuoteHandler = (event) => {
 
         const toke = search(selectedOption)
-        console.log(toke.decimals)
+        console.log(toke.nativeDecimal)
         document.getElementById("quoteSpinner").className = "flex justify-center items-center inline-block"
-        getMinimumAmount(selectedOption, amt, toke.decimals).then((data) => {
+        getMinimumAmount(selectedOption, amt, toke.nativeDecimal).then((data) => {
             console.log(data, 'oo')
             setQuote(data)
             setQuoteError('')
@@ -80,12 +83,13 @@ const LandingPage = () => {
 
             getInboundAddress();
 
-            addLiquidity(quote.inbound_address,
+            addLiquidity(inboundaddress.address,
                 amt,
-                item.ticker,
-                inboundaddress.address,
+                selectedOption,
+                selectedOption.split("-")[1],
                 inboundaddress.router,
-                item.decimals).then((data) => {
+                inboundaddress.memo,
+                parseInt(item.nativeDecimal)).then((data) => {
                     console.log(data, 'data')
                 }).catch((error) => {
                     console.log(error.message, 'error')
@@ -139,9 +143,9 @@ const LandingPage = () => {
                                 value={selectedOption}
                                 onChange={handleToken}
 
-                            >   <option value={null}>Select an option</option>
+                            >   <option value={null}>Select a pool</option>
                                 {tokens.map((token) =>
-                                    <option value={token.apiIdentifier}>{token.name}</option>
+                                    <option value={token.asset}>{token.asset}</option>
                                 )}
                             </select>
                         </div>

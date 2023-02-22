@@ -4,7 +4,7 @@ import axios from 'axios';
 
 async function getSupportedTokens(){
 	var ans=''
-    await axios.get("https://dev-api.thorswap.net/universal/currenciesFull")
+    await axios.get("https://midgard.ninerealms.com/v2/pools")
     .then(function(response){
     	ans=response.data
     	return ans

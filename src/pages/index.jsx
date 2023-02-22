@@ -9,6 +9,8 @@ import { Pricing } from '../components/Pricing'
 import { PrimaryFeatures } from '../components/PrimaryFeatures'
 import { Reviews } from '../components/Reviews'
 import { SecondaryFeatures } from '../components/SecondaryFeatures'
+import {LandingPage} from '../components/LandingPage'
+
 
 export default function Home() {
   return (
