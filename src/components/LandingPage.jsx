@@ -125,7 +125,7 @@ const LandingPage = () => {
     return (
         <div className="min-h-screen bg-gray-100 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
             <div className="sm:mx-auto sm:w-full sm:max-w-md">
-                <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">Deposit Your Crypto Now</h2>
+                <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">Stake for Freedom</h2>
                 <p className="mt-2 text-center text-sm text-gray-600">
                     Or{' '}
                     <a href="#" className="font-medium text-indigo-600 hover:text-indigo-500">
@@ -139,7 +139,7 @@ const LandingPage = () => {
                     <form className="space-y-6" onSubmit={addLiquid}>
                         <div>
                             <label htmlFor="crypto" className="block text-sm font-medium text-gray-700">
-                                Select your cryptocurrency
+                                Choose your liquidity pool
                             </label>
                             <select
                                 id="crypto"
@@ -158,7 +158,7 @@ const LandingPage = () => {
                         {selectedOption &&
                             <div>
                                 <label htmlFor="crypto" className="block text-sm font-medium text-gray-700">
-                                    Selected Coin
+                                    Selected Pool
                                 </label>
                                 <p id="pool">
                                     <span className="text-blue-600">{selectedOption}</span>
@@ -183,7 +183,31 @@ const LandingPage = () => {
                             </div>
                         </div>
 
+
+
+
+                        {quote.error || liquidityError && <Error message={quote.error || liquidityError} />}
+
+                        <div className="flex justify-center items-center hidden" id="quoteSpinner">
+                            <div className="spinner-border animate-spin inline-block w-4 h-4 border-4 rounded-full text-blue-600" role="status">
+                                <span className="visually-hidden">.</span>
+                            </div>
+                        </div>
                         {
+                            amt && <div>
+                                <button
+                                    onClick={getQuoteHandler}
+                                    type="button"
+                                    className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-gray-400 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                >
+                                    Show Quote
+                                </button>
+                            </div>
+                        }
+
+
+
+{
                             quote.expected_amount_out && <div class="bg-white rounded-lg shadow-lg p-6">
                                 <div class="text-lg font-bold mb-4">Quote:</div>
                                 <div class="flex flex-col">
@@ -225,30 +249,6 @@ const LandingPage = () => {
                                 </label>
                             </div>
                         }
-
-
-
-
-                        {quote.error || liquidityError && <Error message={quote.error || liquidityError} />}
-
-                        <div className="flex justify-center items-center hidden" id="quoteSpinner">
-                            <div className="spinner-border animate-spin inline-block w-4 h-4 border-4 rounded-full text-blue-600" role="status">
-                                <span className="visually-hidden">.</span>
-                            </div>
-                        </div>
-                        {
-                            amt && <div>
-                                <button
-                                    onClick={getQuoteHandler}
-                                    type="button"
-                                    className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-gray-400 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                                >
-                                    Show Quote
-                                </button>
-                            </div>
-                        }
-
-
 
 
 
