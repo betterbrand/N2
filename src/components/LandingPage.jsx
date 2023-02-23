@@ -84,7 +84,7 @@ const LandingPage = () => {
             addLiquidity(data.address,
                 amt,
                 selectedOption,
-                selectedOption.split("-")[1],
+                selectedOption.split("-")[1] ?? '0x0000000000000000000000000000000000000000',
                 data.router,
                 `+:${selectedOption}:`,
                 parseInt(toke.nativeDecimal)).then((data) => {
