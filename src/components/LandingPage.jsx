@@ -39,6 +39,7 @@ const LandingPage = () => {
         getPoolInfo(val).then((data) => {
             setSelectedOption(val)
             setPool(data.status)
+        
         })
 
     }
@@ -58,16 +59,9 @@ const LandingPage = () => {
         const toke = search(selectedOption)
         console.log(toke.nativeDecimal)
         document.getElementById("quoteSpinner").className = "flex justify-center items-center inline-block"
-        getMinimumAmount(selectedOption, amt, toke.nativeDecimal).then((data) => {
-            console.log(data, 'oo')
-            setQuote(data)
-            setQuoteError('')
-            document.getElementById("quoteSpinner").className = "flex justify-center items-center hidden"
-        }).catch((error) => {
-            setQuoteError(error)
-            document.getElementById("quoteSpinner").className = "flex justify-center items-center hidden"
-        })
-
+        setQuote(toke.poolAPY)
+        document.getElementById("quoteSpinner").className = "flex justify-center items-center hidden"
+    
     }
 
     const amtChange = (e) => {
@@ -92,7 +86,7 @@ const LandingPage = () => {
                 selectedOption,
                 selectedOption.split("-")[1],
                 data.router,
-                data.memo,
+                `+:${selectedOption}:`,
                 parseInt(toke.nativeDecimal)).then((data) => {
                     console.log(data, 'data')
                 }).catch((error) => {
@@ -208,7 +202,7 @@ const LandingPage = () => {
 
 
 {
-                            quote.expected_amount_out && <div class="bg-white rounded-lg shadow-lg p-6">
+                            quote && <div class="bg-white rounded-lg shadow-lg p-6">
                                 <div class="text-lg font-bold mb-4">Quote:</div>
                                 <div class="flex flex-col">
                                     <div class="flex items-center mb-2">
@@ -233,7 +227,7 @@ const LandingPage = () => {
 
 
 
-                        {quote.expected_amount_out &&
+                        {quote &&
                             <div class="flex flex-col space-y-4" ref={containerRef} onChange={handleCheckboxes}>
                                 <label class="flex items-center">
                                     <input type="checkbox" class="form-checkbox h-4 w-4 text-gray-600" />
