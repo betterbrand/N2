@@ -19,7 +19,7 @@ export default function Home() {
         <title>Network Nation - Stake For Freedom.</title>
         <meta
           name="description"
-          content="By leveraging insights from our network of industry insiders, you’ll know exactly when to buy to maximize profit, and exactly when to sell to avoid painful losses."
+          content="Network Nation - Stake for Freedom"
         />
       </Head>
       <Header />
