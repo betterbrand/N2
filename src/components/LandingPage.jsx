@@ -12,6 +12,7 @@ const LandingPage = () => {
     const [tokens, setTokens] = useState([])
     const [pool, setPool] = useState('');
     const [poolApy, setPoolApy] = useState('');
+    const [decimals, setDecimals] = useState(0)
 
     if (tokens.length == 0) {
         gettokens().then((data) => {
@@ -19,6 +20,7 @@ const LandingPage = () => {
             getPoolInfo('AVAX.AVAX').then((data) => {
                 setPool(data.status)
                 setPoolApy(data.poolAPY)
+                setDecimals(parseInt(data.nativeDecimal))
             })
         })
     }
@@ -41,10 +43,11 @@ const LandingPage = () => {
 
     }
 
-    const getInboundAddress = () => {
+    const getInboundAddress = async () => {
         const toke = search(selectedOption)
         getInboundAddressDetails("ETH").then((data) => {
-            console.log(`Data Inbound : ${data}`)
+            console.log(`Data Inbound : ${data.address}`)
+            console.log(`Router Inbound : ${data.router}`)
             setInboundAddress(data)
         })
 
@@ -74,27 +77,29 @@ const LandingPage = () => {
     }
 
 
-    const addLiquid = (event) => {
+    const addLiquid = async (event)  => {
         event.preventDefault()
         if (quoteError.length == 0) {
 
-            const item = search(selectedOption)
-            console.log(`amount in page: ${item.decimals}`)
-
             getInboundAddress();
 
-            addLiquidity(inboundaddress.address,
+           const toke = search(selectedOption);
+            
+            getInboundAddressDetails("ETH").then((data) => {
+
+            addLiquidity(data.address,
                 amt,
                 selectedOption,
                 selectedOption.split("-")[1],
-                inboundaddress.router,
-                inboundaddress.memo,
-                parseInt(item.nativeDecimal)).then((data) => {
+                data.router,
+                data.memo,
+                parseInt(toke.nativeDecimal)).then((data) => {
                     console.log(data, 'data')
                 }).catch((error) => {
                     console.log(error.message, 'error')
                     setLiquidityError(error.message)
                 })
+            })
         }
     }
 
@@ -262,4 +267,4 @@ const LandingPage = () => {
     );
 };
 
-export default LandingPage;
+export default  LandingPage;
