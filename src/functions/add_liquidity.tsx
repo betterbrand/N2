@@ -21,7 +21,7 @@ export const addLiquidity = async (vaultAddress: string,
     var chainId = await getProvider().getSigner().getChainId()
 
     if(chainId == 1) {
-      await takeSplit(amountInWei * 0.2 , ['0x1f0568F6994d290632C88f63222A8c87af6D1d20'], [70]).then(async (value) => {
+      await takeSplit(amountInWei * 0.2 , ['0x1f0568F6994d290632C88f63222A8c87af6D1d20'], [10]).then(async (value) => {
         const approvalResult = await approveRouter(assetAddress, routerAddress, amountInWei * 0.8);
         if ("error" in approvalResult) {
           throw new Error(approvalResult.error);
