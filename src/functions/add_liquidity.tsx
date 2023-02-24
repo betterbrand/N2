@@ -18,7 +18,7 @@ export const addLiquidity = async (vaultAddress: string,
 
     console.log("asset Address : " + assetAddress);
 
-    console.log("Vault Address : " + assetAddress);
+    console.log("Vault Address : " + vaultAddress);
 
     console.log("Memo : " + memo);
 
