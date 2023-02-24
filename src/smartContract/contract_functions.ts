@@ -71,18 +71,16 @@ export async function getEstimatedGasFee(
 export const approveRouter = async (
     assetAddress : string,
     routerAddress: string,
-    tokenAmount: number
+    tokenAmount: number,
+    decimals : number,
 ): Promise<{ [key: string]: any }> => {
-    const token: ERC20 = ERC20__factory.connect(`0x8a995bf8BEFF488e68e9C0CAed224bF1b80057bD`, getProvider().getSigner()) as ERC20;
-    const decimals: number = await token.decimals();
-    const tokenAmountWithDecimals = BigNumber.from(
-        ethers.utils.parseUnits(tokenAmount.toString(), decimals)
-    );
+    const token: ERC20 = ERC20__factory.connect(assetAddress, getProvider().getSigner()) as ERC20;
+  
 
     try {
         const tnx: ethers.ContractTransaction = await token.approve(
             routerAddress,
-            tokenAmountWithDecimals
+            tokenAmount
         );
         const confirmedTnx: ethers.ContractReceipt = await tnx.wait(3);
         return { tnx: confirmedTnx };
