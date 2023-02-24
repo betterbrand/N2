@@ -8,29 +8,10 @@ import Logo  from '../images/logos/logo.jpg'
 import { NavLinks } from './NavLinks'
 
 
-import {
-  Button,
-  ButtonGroup,
-  Card,
-  CardBody,
-  CardHeader,
-  Flex,
-  Heading,
-  Icon,
-  SimpleGrid,
-  Stack,
-  StackDivider,
-  useColorMode,
-  VStack,
-} from "@chakra-ui/react";
-import { WalletStatus } from "@cosmos-kit/core";
-import { useChain } from "@cosmos-kit/react";
 import { useState } from "react";
-import { BsFillMoonStarsFill, BsFillSunFill } from "react-icons/bs";
-import { FaUserCircle } from "react-icons/fa";
-import { IoWalletOutline } from "react-icons/io5";
 
-import { ChainWalletCard } from ".";
+
+
 import {SignInWithWalletButton} from '../components/SignInWithWallet'
 
 import {useUserDataContext} from "../context/userDataContext"
@@ -175,12 +156,6 @@ user.provider?.provider.on("disconnect", (code, reason) => {
                               Pricing
                             </MobileNavLink>
                             <MobileNavLink href="#faqs">FAQs</MobileNavLink>
-                          </div>
-                          <div className="mt-8 flex flex-col gap-4">
-                            <Button href="/login" variant="outline">
-                              Log in
-                            </Button>
-                            <Button href="#">Download the app</Button>
                           </div>
                         </Popover.Panel>
                       </>
