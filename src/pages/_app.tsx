@@ -2,7 +2,7 @@ import '../styles/tailwind.css'
 import 'focus-visible'
 
 
-import { ChakraProvider } from "@chakra-ui/react";
+
 
 
 import { Web3ReactProvider } from "@web3-react/core";
@@ -18,7 +18,7 @@ function getLibrary(provider: any) {
 
 export default function App({ Component, pageProps }) {
   return (
-    <ChakraProvider>
+   
        <Web3ReactProvider getLibrary={getLibrary}>
        <UserDataProvider>
 
@@ -26,6 +26,6 @@ export default function App({ Component, pageProps }) {
         <Toaster position="bottom-center" />
       </UserDataProvider>
       </Web3ReactProvider>
-    </ChakraProvider>
+
   );
 }
