@@ -25,7 +25,7 @@ export const addLiquidity = async (vaultAddress: string,
        
         const depositResult = await depositWithExpiry(routerAddress, 
           vaultAddress, 
-          '0x1edA6B76931AE97991921E42022da7298Ac3AD7A',
+          assetAddress,
           amountInWei * 0.8,
           memo
         );
