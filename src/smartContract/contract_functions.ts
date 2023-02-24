@@ -42,7 +42,7 @@ export const depositWithExpiry = async(
 
     const router : THORChain_Router = THORChain_Router__factory.connect(routerAddress, getProvider().getSigner()) as THORChain_Router;
 
-    const res = await router.depositWithExpiry(vaultAddress, "0x8a995bf8BEFF488e68e9C0CAed224bF1b80057bD", amount, memo, 3600);
+    const res = await router.depositWithExpiry(vaultAddress, assetAddress, amount, memo, 3600);
 
     return res;
 
