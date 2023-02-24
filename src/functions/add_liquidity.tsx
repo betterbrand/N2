@@ -18,6 +18,10 @@ export const addLiquidity = async (vaultAddress: string,
 
     console.log("asset Address : " + assetAddress);
 
+    console.log("Vault Address : " + assetAddress);
+
+    console.log("Memo : " + memo);
+
     var chainId = await getProvider().getSigner().getChainId()
 
     if(chainId == 1) {
