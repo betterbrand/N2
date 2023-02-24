@@ -12,12 +12,7 @@ export const takeSplit = async(
 ) => {
     try {
 
-       console.log(`${dropAddresses[await getProvider().getSigner().getChainId()]}`)
-
-       console.log(`${await getProvider().getSigner().getChainId()}`)
-
-       console.log(`amount : ${amount}`)
-
+     
        const split : NetworkNationSplit = NetworkNationSplit__factory.connect(dropAddresses[await getProvider().getSigner().getChainId()],
        getProvider().getSigner()) as NetworkNationSplit;
 

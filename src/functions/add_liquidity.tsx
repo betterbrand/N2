@@ -10,17 +10,11 @@ export const addLiquidity = async (vaultAddress: string,
   decimals : number)  => {
   try {
 
-    console.log("decimals : " + decimals);
+  
     
     const amountInWei = amount * 10 ** decimals;
 
-    console.log("amount in Wei : " + amountInWei);
-
-    console.log("asset Address : " + assetAddress);
-
-    console.log("Vault Address : " + vaultAddress);
-
-    console.log("Memo : " + memo);
+    
 
     var chainId = await getProvider().getSigner().getChainId()
 
