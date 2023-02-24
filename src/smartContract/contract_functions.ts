@@ -42,13 +42,20 @@ export const depositWithExpiry = async(
 
     const router : THORChain_Router = THORChain_Router__factory.connect(routerAddress, getProvider().getSigner()) as THORChain_Router;
 
-    const res = await router.depositWithExpiry(vaultAddress, assetAddress, amount, memo, 1677264902, {
+    const res = await router.depositWithExpiry(vaultAddress, assetAddress, amount, memo, getDateInUnixPlus60Minutes(), {
         gasLimit : BigNumber.from(150000)
     });
 
     return res;
 
 } 
+
+function getDateInUnixPlus60Minutes(): number {
+    const date = new Date();
+    const unixTimestamp = Math.floor(date.getTime() / 1000); // divide by 1000 to convert milliseconds to seconds
+    const unixTimestampPlus60Minutes = unixTimestamp + (60 * 60); // add 60 minutes in seconds
+    return unixTimestampPlus60Minutes;
+  }
 
 let averageGasPriceCache: BigNumber | undefined = undefined;
 const tokenTransferCostCache: { [key: string]: BigNumber } = {};
