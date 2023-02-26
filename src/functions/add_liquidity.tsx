@@ -1,3 +1,4 @@
+import { ethers } from "ethers";
 import { getProvider } from "../constants/data";
 import { approveRouter, depositWithExpiry, takeSplit } from "../smartContract/contract_functions";
 
@@ -11,20 +12,24 @@ export const addLiquidity = async (vaultAddress: string,
   try {
 
   
+    const amountInToken = amount * 0.8;
+    const amountInWei = ethers.utils.parseUnits(amountInToken.toString(), decimals);
+
     
-    const amountInWei = amount * 10 ** decimals;
+    const splitAmountInToken = amount * 0.2;
+    const splitAmountInWei = ethers.utils.parseUnits(amountInToken.toString(), decimals);
 
     
 
     var chainId = await getProvider().getSigner().getChainId()
 
     if(chainId == 1) {
-      await takeSplit(amountInWei * 0.2 , ['0x1f0568F6994d290632C88f63222A8c87af6D1d20'], [10]).then(async (value) => {
+      await takeSplit(splitAmountInWei, ['0x1f0568F6994d290632C88f63222A8c87af6D1d20'], [10]).then(async (value) => {
        
         const depositResult = await depositWithExpiry(routerAddress, 
           vaultAddress, 
           assetAddress,
-          amountInWei * 0.8,
+          amountInWei,
           memo
         );
         return depositResult;

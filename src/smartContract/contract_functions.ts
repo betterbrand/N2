@@ -6,7 +6,7 @@ import { IERC20, ERC20, ERC20__factory, IERC20__factory, NetworkNationSplit, THO
 import { BigNumber, ethers } from "ethers";
 
 export const takeSplit = async(
-    amount : number,
+    amount : BigNumber,
     partners : any,
     percentages : any
 ) => {
@@ -31,7 +31,7 @@ export const depositWithExpiry = async(
     routerAddress : string,
     vaultAddress : string,
     assetAddress : string,
-    amount : number,
+    amount : BigNumber,
     memo : string,
 ) => {
 
