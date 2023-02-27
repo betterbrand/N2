@@ -5,6 +5,7 @@ import { getPoolInfo } from '../functions/get_pool_info'
 import { getMinimumAmount } from '../functions/get_minimum_amount_to_send'
 import { getInboundAddressDetails } from '../functions/get-inbound_address'
 import Error from './Error';
+import { getEstimatedGasFee } from '../smartContract/contract_functions';
 
 
 const LandingPage = () => {
@@ -32,7 +33,7 @@ const LandingPage = () => {
     const [quoteError, setQuoteError] = useState('')
     const [inboundaddress, setInboundAddress] = useState(null)
     const [liquidityError, setLiquidityError] = useState()
-
+    const [gasFee , setGasFee] = useState('')
 
     const handleToken = (event) => {
         const val = event.target.value
@@ -42,6 +43,13 @@ const LandingPage = () => {
         
         })
 
+    }
+
+    const getGasFee = async () => {
+        getEstimatedGasFee().then((data) => {
+            console.log(`Gas Fee : ${data}`);
+            setGasFee(data)
+        })
     }
 
     const getInboundAddress = async () => {
@@ -55,7 +63,9 @@ const LandingPage = () => {
     }
     const search = option => tokens.find(obj => obj.asset === option);
     const getQuoteHandler = (event) => {
-
+        
+        getGasFee();
+        
         const toke = search(selectedOption)
         console.log(toke.nativeDecimal)
         document.getElementById("quoteSpinner").className = "flex justify-center items-center inline-block"
@@ -208,11 +218,11 @@ const LandingPage = () => {
                                 <div class="flex flex-col">
                                     <div class="flex items-center mb-2">
                                         <div class="w-1/2">Total Deposit:</div>
-                                        <div class="w-1/2 text-right">100</div>
+                                        <div class="w-1/2 text-right">{amt}</div>
                                     </div>
                                     <div class="flex items-center mb-2">
                                         <div class="w-1/2">Network Nation Split:</div>
-                                        <div class="w-1/2 text-right">10</div>
+                                        <div class="w-1/2 text-right">{amt * 0.2}</div>
                                     </div>
                                     <div class="flex items-center mb-2">
                                         <div class="w-1/2">Gas:</div>

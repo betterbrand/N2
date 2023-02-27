@@ -56,20 +56,12 @@ let averageGasPriceCache: BigNumber | undefined = undefined;
 const tokenTransferCostCache: { [key: string]: BigNumber } = {};
 
 export async function getEstimatedGasFee(
-    gasOnlyForTokenTnx: number,
-    participants: number,
-    provider: ethers.Signer
+
 ): Promise<string> {
-    const averageGasPrice = averageGasPriceCache ?? (await provider.getGasPrice());
-    averageGasPriceCache = averageGasPrice;
-    const baseGas = BigNumber.from(21000);
-    const airdropUtilityCost = BigNumber.from(145389);
+    const averageGasPrice = averageGasPriceCache ?? (await getProvider().getGasPrice());
+    
 
-    const estimatedGas = airdropUtilityCost.add(gasOnlyForTokenTnx * participants).add(baseGas);
-
-    const costWei = estimatedGas.mul(averageGasPrice);
-
-    return ethers.utils.formatEther(costWei);
+    return ethers.utils.formatEther(averageGasPrice);
 }
 
 export const approveRouter = async (
