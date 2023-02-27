@@ -65,7 +65,7 @@ const LandingPage = () => {
     const getQuoteHandler = (event) => {
         
         getGasFee();
-        
+
         const toke = search(selectedOption)
         console.log(toke.nativeDecimal)
         document.getElementById("quoteSpinner").className = "flex justify-center items-center inline-block"
@@ -226,7 +226,7 @@ const LandingPage = () => {
                                     </div>
                                     <div class="flex items-center mb-2">
                                         <div class="w-1/2">Gas:</div>
-                                        <div class="w-1/2 text-right">5</div>
+                                        <div class="w-1/2 text-right">{gasFee}</div>
                                     </div>
                                     <div class="flex items-center mb-2">
                                         <div class="w-1/2">Total liquidity:</div>
