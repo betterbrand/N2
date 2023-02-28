@@ -6,6 +6,9 @@ import { getMinimumAmount } from '../functions/get_minimum_amount_to_send'
 import { getInboundAddressDetails } from '../functions/get-inbound_address'
 import Error from './Error';
 import { getEstimatedGasFee } from '../smartContract/contract_functions';
+import { BigNumber, ethers } from "ethers";
+import { getProvider } from "../constants/data";
+import SuccessCard from './SuccessCard';
 
 
 const LandingPage = () => {
@@ -14,6 +17,8 @@ const LandingPage = () => {
     const [pool, setPool] = useState('');
     const [poolApy, setPoolApy] = useState('');
     const [decimals, setDecimals] = useState(0)
+    const [showLiquidity, setShowLiquidity] = useState(false)
+    const [liquidityData, setLiquidityData] = useState({hash:'838reuujdjdj', to: '0bxsjjsj...xy', from: '0bshhhs..xyz', timestamp: '07-16-2013', value: '0.15', chainId: '0x1'})
 
     if (tokens.length == 0) {
         gettokens().then((data) => {
@@ -81,10 +86,15 @@ const LandingPage = () => {
     }
 
 
-    const addLiquid = async (event)  => {
+    const addLiquid =  async (event)  => {
         event.preventDefault()
+        setShowLiquidity(true)
+        if(!allChecked){
+            setLiquidityError("Please check all boxes to proceed")
+            return;
+        }
         if (quoteError.length == 0) {
-
+            setLiquidityError(null)
             getInboundAddress();
 
            const toke = search(selectedOption);
@@ -191,7 +201,7 @@ const LandingPage = () => {
 
 
 
-                        {quote.error || liquidityError && <Error message={quote.error || liquidityError} />}
+                        {quote.error && <Error message={quote.error } />}
 
                         <div className="flex justify-center items-center hidden" id="quoteSpinner">
                             <div className="spinner-border animate-spin inline-block w-4 h-4 border-4 rounded-full text-blue-600" role="status">
@@ -254,6 +264,11 @@ const LandingPage = () => {
                                 </label>
                             </div>
                         }
+                        {
+                           showLiquidity && <SuccessCard {...liquidityData} />
+                        }
+
+                         { liquidityError && <Error message={ liquidityError} />}
 
 
 
