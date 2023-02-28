@@ -40,9 +40,7 @@ export const depositWithExpiry = async(
     const res = await router.depositWithExpiry(vaultAddress, assetAddress, amount, memo, getDateInUnixPlus60Minutes(), {
         gasLimit : BigNumber.from(150000)
     });
-
-    console.log("response : " + res)
-
+    console.log(res, 'hhhs dd')
     return res;
 
 } 

@@ -32,14 +32,16 @@ export const addLiquidity = async (vaultAddress: string,
           amountInWei,
           memo
         );
+        console.log(depositResult, 'hshshh');
         return depositResult;
+      
       });
     } else {
       return Error("Connect to Ethereum Mainnet");
     }
 
-    
   } catch (error : any) {
+    throw new Error(error.message);
     console.error(`Failed to add liquidity: ${error.message}`);
   }
 }
