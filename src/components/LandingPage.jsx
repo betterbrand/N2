@@ -99,21 +99,20 @@ const LandingPage = () => {
 
            const toke = search(selectedOption);
             
-            getInboundAddressDetails("ETH").then((data) => {
+            getInboundAddressDetails("ETH").then(async (data)  => {
 
-            addLiquidity(data.address,
+           const res = await addLiquidity(data.address,
                 amt,
                 selectedOption,
                 selectedOption.split("-")[1] ?? '0x0000000000000000000000000000000000000000',
                 data.router,
                 `+:${selectedOption}:`, 
                 
-                parseInt(toke.nativeDecimal)).then((data) => {
-                    console.log(data, 'data')
-                }).catch((error) => {
-                    console.log(error.message, 'error')
-                    setLiquidityError(error.message)
-                })
+                parseInt(toke.nativeDecimal));
+
+                console.log("Response : ", res)
+
+                setLiquidityData(res)
             })
         }
     }
