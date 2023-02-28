@@ -16,10 +16,10 @@ const SuccessCard = ({ hash, to, from, timestamp, value, chainId }) => {
         <p className="text-gray-700 font-semibold">To:</p>
         <p className="text-gray-600">{to}</p>
       </div>
-      {/* <div className="px-4 py-2 border-t border-gray-200">
+      <div className="px-4 py-2 border-t border-gray-200">
         <p className="text-gray-700 font-semibold">Value:</p>
-        <p className="text-gray-600">{value}</p>
-      </div> */}
+        <p className="text-gray-600">{value.toString()}</p>
+      </div>
       <div className="px-4 py-2 border-t border-gray-200">
         <p className="text-gray-700 font-semibold">Chain ID:</p>
         <p className="text-gray-600">{chainId}</p>
