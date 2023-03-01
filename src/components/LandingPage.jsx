@@ -25,7 +25,6 @@ const LandingPage = () => {
             setTokens(data)
             getPoolInfo('AVAX.AVAX').then((data) => {
                 setPool(data.status)
-                setPoolApy(data.poolAPY)
                 setDecimals(parseInt(data.nativeDecimal))
             })
         })
@@ -74,7 +73,7 @@ const LandingPage = () => {
         const toke = search(selectedOption)
         console.log(toke, "Token")
         document.getElementById("quoteSpinner").className = "flex justify-center items-center inline-block"
-        setQuote(toke.poolAPY)
+        setQuote(toke)
         setPoolApy(toke.poolAPY)
         document.getElementById("quoteSpinner").className = "flex justify-center items-center hidden"
     
@@ -89,7 +88,7 @@ const LandingPage = () => {
 
     const addLiquid =  async (event)  => {
         event.preventDefault()
-        setShowLiquidity(true)
+
         if(!allChecked){
             setLiquidityError("Please check all boxes to proceed")
             return;
@@ -114,6 +113,7 @@ const LandingPage = () => {
                 console.log("Response : ", res)
 
                 setLiquidityData(res)
+                setShowLiquidity(true)
             })
         }
     }
@@ -232,7 +232,7 @@ const LandingPage = () => {
                                     </div>
                                     <div class="flex items-center mb-2">
                                         <div class="w-1/2">Network Nation Split:</div>
-                                        <div class="w-1/2 text-right">{(amt * 0.2).toFixed(2)}</div>
+                                        <div class="w-1/2 text-right">{(amt * 0.2).toFixed(5)}</div>
                                     </div>
                                     <div class="flex items-center mb-2">
                                         <div class="w-1/2">APY:</div>
@@ -240,7 +240,11 @@ const LandingPage = () => {
                                     </div>
                                     <div class="flex items-center mb-2">
                                         <div class="w-1/2">Total liquidity:</div>
-                                        <div class="w-1/2 text-right">{(amt-(amt*.2)).toFixed(2)}</div>
+                                        <div class="w-1/2 text-right">{(amt-(amt*.2)).toFixed(5)}</div>
+                                    </div>
+                                    <div class="flex items-center mb-2">
+                                        <div class="w-1/2">APY</div>
+                                        <div class="w-1/2 text-right">{poolApy}</div>
                                     </div>
                                 </div>
                             </div>
