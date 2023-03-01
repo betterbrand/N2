@@ -67,8 +67,7 @@ export async function getEstimatedGasFee(
 export const approveRouter = async (
     assetAddress : string,
     routerAddress: string,
-    tokenAmount: number,
-    decimals : number,
+    tokenAmount: BigNumber,
 ): Promise<{ [key: string]: any }> => {
     const token: ERC20 = ERC20__factory.connect(assetAddress, getProvider().getSigner()) as ERC20;
   

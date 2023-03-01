@@ -71,10 +71,10 @@ const LandingPage = () => {
         getGasFee();
 
         const toke = search(selectedOption)
-        console.log(toke.nativeDecimal)
+        console.log(toke, "Token")
         document.getElementById("quoteSpinner").className = "flex justify-center items-center inline-block"
         setQuote(toke)
-        setPoolApy(toke.poolAPY)
+        setPoolApy(toke.annualPercentageRate)
         document.getElementById("quoteSpinner").className = "flex justify-center items-center hidden"
     
     }
@@ -234,16 +234,12 @@ const LandingPage = () => {
                                         <div class="w-1/2">Network Nation Split:</div>
                                         <div class="w-1/2 text-right">{(amt * 0.2).toFixed(5)}</div>
                                     </div>
-                                    {/* <div class="flex items-center mb-2">
-                                        <div class="w-1/2">Gas:</div>
-                                        <div class="w-1/2 text-right">{gasFee}</div>
-                                    </div> */}
                                     <div class="flex items-center mb-2">
                                         <div class="w-1/2">Total liquidity:</div>
                                         <div class="w-1/2 text-right">{(amt-(amt*.2)).toFixed(5)}</div>
                                     </div>
                                     <div class="flex items-center mb-2">
-                                        <div class="w-1/2">APY</div>
+                                        <div class="w-1/2">APR</div>
                                         <div class="w-1/2 text-right">{poolApy}</div>
                                     </div>
                                 </div>
