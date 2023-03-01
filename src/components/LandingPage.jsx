@@ -235,15 +235,11 @@ const LandingPage = () => {
                                         <div class="w-1/2 text-right">{(amt * 0.2).toFixed(5)}</div>
                                     </div>
                                     <div class="flex items-center mb-2">
-                                        <div class="w-1/2">APY:</div>
-                                        <div class="w-1/2 text-right">{poolApy}</div>
-                                    </div>
-                                    <div class="flex items-center mb-2">
                                         <div class="w-1/2">Total liquidity:</div>
                                         <div class="w-1/2 text-right">{(amt-(amt*.2)).toFixed(5)}</div>
                                     </div>
                                     <div class="flex items-center mb-2">
-                                        <div class="w-1/2">APY</div>
+                                        <div class="w-1/2">APR</div>
                                         <div class="w-1/2 text-right">{poolApy}</div>
                                     </div>
                                 </div>
