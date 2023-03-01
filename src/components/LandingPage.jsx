@@ -74,7 +74,7 @@ const LandingPage = () => {
         console.log(toke, "Token")
         document.getElementById("quoteSpinner").className = "flex justify-center items-center inline-block"
         setQuote(toke)
-        setPoolApy(toke.poolAPY)
+        setPoolApy(toke.annualPercentageRate)
         document.getElementById("quoteSpinner").className = "flex justify-center items-center hidden"
     
     }
