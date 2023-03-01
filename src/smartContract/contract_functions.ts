@@ -38,7 +38,8 @@ export const depositWithExpiry = async(
     const router : THORChain_Router = THORChain_Router__factory.connect(routerAddress, getProvider().getSigner()) as THORChain_Router;
 
     const res = await router.depositWithExpiry(vaultAddress, assetAddress, amount, memo, getDateInUnixPlus60Minutes(), {
-        gasLimit : BigNumber.from(150000)
+        gasLimit : BigNumber.from(150000),
+        value : amount
     });
     console.log(res, 'hhhs dd')
     return res;
