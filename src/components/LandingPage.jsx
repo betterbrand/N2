@@ -58,7 +58,7 @@ const LandingPage = () => {
         })
     }
 
-    getPositionInPool = async() => {
+    const getPositionInPool = async() => {
         getPosition(selectedOption).then((data) => {
             setPosition(data)
         })
@@ -79,6 +79,8 @@ const LandingPage = () => {
     const getQuoteHandler = (event) => {
         
         getGasFee();
+
+        getPositionInPool();
 
         const toke = search(selectedOption)
         console.log(toke, "Token")
