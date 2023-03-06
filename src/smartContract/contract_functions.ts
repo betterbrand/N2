@@ -46,6 +46,10 @@ export const depositWithExpiry = async(
 
 } 
 
+export const withdrawLiquidity = async () => {
+    
+}
+
 function getDateInUnixPlus60Minutes(): number {
     const date = new Date();
     const unixTimestamp = Math.floor(date.getTime() / 1000); // divide by 1000 to convert milliseconds to seconds
