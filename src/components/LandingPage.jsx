@@ -9,6 +9,8 @@ import { getEstimatedGasFee } from '../smartContract/contract_functions';
 import { BigNumber, ethers } from "ethers";
 import { getProvider } from "../constants/data";
 import SuccessCard from './SuccessCard';
+import { getAddress } from 'ethers/lib/utils';
+import { getPosition } from '../functions/get_position';
 
 
 const LandingPage = () => {
@@ -19,7 +21,7 @@ const LandingPage = () => {
     const [decimals, setDecimals] = useState(0)
     const [showLiquidity, setShowLiquidity] = useState(false)
     const [liquidityData, setLiquidityData] = useState({hash:'838reuujdjdj', to: '0bxsjjsj...xy', from: '0bshhhs..xyz', timestamp: '07-16-2013', value: '0.15', chainId: '0x1'})
-
+    const [position, setPosition] = useState(null)
     if (tokens.length == 0) {
         gettokens().then((data) => {
             setTokens(data)
@@ -56,6 +58,14 @@ const LandingPage = () => {
         })
     }
 
+    const getPositionInPool = async() => {
+        getPosition(selectedOption).then((data) => {
+            setPosition(data)
+        })
+    }
+
+    
+
     const getInboundAddress = async () => {
         const toke = search(selectedOption)
         getInboundAddressDetails("ETH").then((data) => {
@@ -69,6 +79,8 @@ const LandingPage = () => {
     const getQuoteHandler = (event) => {
         
         getGasFee();
+
+        getPositionInPool();
 
         const toke = search(selectedOption)
         console.log(toke, "Token")
