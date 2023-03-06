@@ -164,6 +164,9 @@ user.provider?.provider.on("disconnect", (code, reason) => {
                 </>
               )}
             </Popover>
+            <Link href='/mypositions' className="primaryButton text-white">
+              My Positions
+            </Link>
             <SignInWithWalletButton/>
           </div>
         </Container>

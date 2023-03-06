@@ -17,7 +17,6 @@ export default function Home() {
           content="Network Nation - Stake for Freedom"
         />
       </Head>
-      <Header />
       <main>
       <LandingPage/>
 

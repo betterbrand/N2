@@ -1,6 +1,6 @@
 import '../styles/tailwind.css'
 import 'focus-visible'
-
+import Layout from '../components/layout'
 
 
 
@@ -21,8 +21,9 @@ export default function App({ Component, pageProps }) {
    
        <Web3ReactProvider getLibrary={getLibrary}>
        <UserDataProvider>
-
+         <Layout >
         <Component {...pageProps} />
+        </Layout>
         <Toaster position="bottom-center" />
       </UserDataProvider>
       </Web3ReactProvider>
