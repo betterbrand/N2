@@ -16,6 +16,8 @@ function MyPositions() {
   const [tokens, setTokens] = useState([])
   const [selectedOption, setSelectedOption] = useState("");
   const [position, setPosition]  = useState("")
+  const [inboundAddress, setInboundAddress] = useState("")
+  
   const positions = [
     {
       name: selectedOption,
