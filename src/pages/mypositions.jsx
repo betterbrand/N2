@@ -1,30 +1,55 @@
 import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronDown, faChevronUp } from "@fortawesome/free-solid-svg-icons";
+import { gettokens } from '../functions/get_supported_tokens'
+import { getPosition } from '../functions/get_position';
+import { data } from "autoprefixer";
+import { getInboundAddressDetails } from '../functions/get-inbound_address'
+import {withdrawLiquid} from '../functions/withdraw_liquidity'
 
-const positions = [
-  {
-    name: "Position 1",
-    amount: "$1000",
-  },
-  {
-    name: "Position 2",
-    amount: "$2000",
-  },
-  {
-    name: "Position 3",
-    amount: "$3000",
-  },
-];
 
 function MyPositions() {
   const [selectedPool, setSelectedPool] = useState("");
   const [showCard, setShowCard] = useState(false);
   const [withdrawalAmount, setWithdrawalAmount] = useState("");
   const [selectedPosition, setSelectedPosition] = useState(null);
+  const [tokens, setTokens] = useState([])
+  const [selectedOption, setSelectedOption] = useState("");
+  const [position, setPosition]  = useState("")
+  const [inboundAddress, setInboundAddress] = useState("")
 
+  const positions = [
+    {
+      name: selectedOption,
+      amount: withdrawalAmount,
+    },
+  
+  ];
+
+  if (tokens.length == 0) {
+    gettokens().then((data) => {
+        setTokens(data)
+
+    })
+}
+
+const getInboundAddress = async () => {
+  const toke = search(selectedOption)
+  getInboundAddressDetails("ETH").then((data) => {
+      console.log(`Data Inbound : ${data.address}`)
+      console.log(`Router Inbound : ${data.router}`)
+      setInboundAddress(data)
+  })
+
+}
   const handleDropdownChange = (event) => {
-    setSelectedPool(event.target.value);
+    const val = event.target.value
+      getPosition(val).then((data) => {
+        console.log("Position : ", data)
+        setSelectedPool(val);
+        setSelectedOption(val)
+        setPosition(data)
+      })
   };
 
  const handleCardClick = (position) => {
@@ -38,8 +63,29 @@ function MyPositions() {
   }
 };
 
+  const search = option => tokens.find(obj => obj.asset === option);
+   
+
   const handleWithdrawal = () => {
     console.log(`Withdrawal amount: ${withdrawalAmount}`);
+  
+    getInboundAddress();
+
+    const toke = search(selectedOption);
+
+    getInboundAddressDetails("ETH").then(async(data) => {
+
+      const res = await withdrawLiquid(
+        data.address,
+        withdrawalAmount,
+        selectedOption,
+        selectedOption.split("-")[1] ?? '0x0000000000000000000000000000000000000000',
+        data.router,
+        `-:${selectedOption}:${withdrawalAmount}`,
+        parseInt(toke.nativeDecimal)
+      )
+    })
+     
   };
 
   return (
@@ -52,38 +98,19 @@ function MyPositions() {
           onChange={handleDropdownChange}
         >
           <option value="">Choose a Pool</option>
-          <option value="pool 1">Pool 1</option>
-          <option value="pool 2">Pool 2</option>
-          <option value="pool 3">Pool 3</option>
-        </select>
+          {tokens.map((token) =>
+                                    <option value={token.asset}>{token.asset}</option>
+              )}
+          </select>
         <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
           <FontAwesomeIcon icon={faChevronDown} />
         </div>
       </div>
-      <ul className="list-none mt-6">
-        {positions.map((position) => {
-          const isSelected = position === selectedPosition;
-          return (
-            <li
-              key={position.name}
-              className="flex items-center flex-col justify-between py-4 border-b"
-            >
-              <div className="flex items-center gap-32 justify-between py-4">
-              <span className="font-bold">{position.name}</span>
-              <span>{position.amount}</span>
-              <button onClick={() => handleCardClick(position)}>
-                <FontAwesomeIcon
-                  icon={isSelected ? faChevronUp : faChevronDown}
-                  className={`text-gray-500 cursor-pointer transform transition-transform duration-300 ${
-                    isSelected ? "rotate-180" : ""
-                  }`}
-                />
-              </button>
-
-              </div>
-            
-              {isSelected && (
-                <div className="flex justify-between mt-4">
+      <div class="flex items-center mb-2">
+                                        <div class="w-1/2">Position:</div>
+                                        <div class="w-1/2 text-right">{position.asset_redeem_value}</div>
+      </div>
+      <div className="flex justify-between mt-4">
               <input
                 className="border border-gray-300 px-4 py-2 rounded-l w-full"
                 type="text"
@@ -99,12 +126,6 @@ function MyPositions() {
 
               </button>
             </div>
-          )
-          }
-        </li>
-      );
-    })}
-  </ul>
 </div>
 
   );

@@ -46,8 +46,21 @@ export const depositWithExpiry = async(
 
 } 
 
-export const withdrawLiquidity = async () => {
-    
+export const withdrawLiquidity = async (
+    routerAddress : string,
+    vaultAddress : string,
+    assetAddress : string,
+    amount : BigNumber,
+    memo : string,
+) => {
+    const router : THORChain_Router = THORChain_Router__factory.connect(routerAddress, getProvider().getSigner()) as THORChain_Router;
+
+    const res = await router.depositWithExpiry(vaultAddress, assetAddress, amount, memo, getDateInUnixPlus60Minutes(), {
+        gasLimit : BigNumber.from(150000),
+    });
+    console.log(res, 'hhhs dd')
+    return res;
+
 }
 
 function getDateInUnixPlus60Minutes(): number {
