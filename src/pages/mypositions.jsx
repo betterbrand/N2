@@ -17,7 +17,7 @@ function MyPositions() {
   const [selectedOption, setSelectedOption] = useState("");
   const [position, setPosition]  = useState("")
   const [inboundAddress, setInboundAddress] = useState("")
-  
+
   const positions = [
     {
       name: selectedOption,
@@ -78,9 +78,11 @@ const getInboundAddress = async () => {
       const res = await withdrawLiquid(
         data.address,
         withdrawalAmount,
+        selectedOption,
         selectedOption.split("-")[1] ?? '0x0000000000000000000000000000000000000000',
         data.router,
-        `-:${selectedOption}:${withdrawalAmount}`
+        `-:${selectedOption}:${withdrawalAmount}`,
+        parseInt(toke.nativeDecimal)
       )
     })
      
