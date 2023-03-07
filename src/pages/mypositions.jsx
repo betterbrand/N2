@@ -108,7 +108,7 @@ const getInboundAddress = async () => {
       </div>
       <div class="flex items-center mb-2">
                                         <div class="w-1/2">Position:</div>
-                                        <div class="w-1/2 text-right">{position.asset_redeem_value}</div>
+                                        <div class="w-1/2 text-right">{position.asset_redeem_value} Wei</div>
       </div>
       <div className="flex justify-between mt-4">
               <input
