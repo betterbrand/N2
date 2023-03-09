@@ -252,7 +252,7 @@ const LandingPage = () => {
                                     </div>
                                     <div class="flex items-center mb-2">
                                         <div class="w-1/2">APR</div>
-                                        <div class="w-1/2 text-right">{poolApy}</div>
+                                        <div class="w-1/2 text-right">{poolApy*100}.toFixed(2)%</div>
                                     </div>
                                 </div>
                             </div>
