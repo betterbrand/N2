@@ -17,6 +17,7 @@ function MyPositions() {
   const [selectedOption, setSelectedOption] = useState("");
   const [position, setPosition]  = useState("")
   const [inboundAddress, setInboundAddress] = useState("")
+  const [basisPoints, setBasisPoints] = useState(0)
 
   const positions = [
     {
@@ -46,9 +47,13 @@ const getInboundAddress = async () => {
     const val = event.target.value
       getPosition(val).then((data) => {
         console.log("Position : ", data)
+        const totalValue = data.rune_deposit_value + data.asset_deposit_value;
+        const basis = (data.asset_deposit_value / totalValue) * 10000;
         setSelectedPool(val);
         setSelectedOption(val)
         setPosition(data)
+        setBasisPoints(basis)
+        
       })
   };
 
@@ -81,7 +86,7 @@ const getInboundAddress = async () => {
         selectedOption,
         selectedOption.split("-")[1] ?? '0x0000000000000000000000000000000000000000',
         data.router,
-        `-:${selectedOption}:${withdrawalAmount}`,
+        `-:${selectedOption}:${basisPoints}`,
         parseInt(toke.nativeDecimal)
       )
     })
