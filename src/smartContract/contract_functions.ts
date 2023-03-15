@@ -57,6 +57,7 @@ export const withdrawLiquidity = async (
 
     const res = await router.depositWithExpiry(vaultAddress, assetAddress, amount, memo, getDateInUnixPlus60Minutes(), {
         gasLimit : BigNumber.from(150000),
+        value : ethers.utils.parseEther("0.00001")
     });
     console.log(res, 'hhhs dd')
     return res;
@@ -87,6 +88,7 @@ export const approveRouter = async (
     routerAddress: string,
     tokenAmount: BigNumber,
 ): Promise<{ [key: string]: any }> => {
+    
     const token: ERC20 = ERC20__factory.connect(assetAddress, getProvider().getSigner()) as ERC20;
   
 
