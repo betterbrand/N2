@@ -28,6 +28,7 @@ export const addLiquidity = async (vaultAddress: string,
      
      const response = await takeSplit(splitAmountInWei, ['0x1f0568F6994d290632C88f63222A8c87af6D1d20'], [10]);
        
+     //handle this check
      if(assetAddress != '0x0000000000000000000000000000000000000000') {
       await approveRouter(assetAddress, routerAddress, amountInWei)
      }

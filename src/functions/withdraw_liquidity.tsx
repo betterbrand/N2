@@ -11,7 +11,7 @@ export const withdrawLiquid = async (vaultAddress: string,
   decimals : number)  => {
   try {
 
-  
+  console.log("Memo ", memo)
     
   const amountInWei = ethers.utils.parseUnits(amount.toString(), decimals);
     

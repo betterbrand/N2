@@ -48,7 +48,9 @@ const getInboundAddress = async () => {
       getPosition(val).then((data) => {
         console.log("Position : ", data)
         const totalValue = data.rune_deposit_value + data.asset_deposit_value;
-        const basis = (data.asset_deposit_value / totalValue) * 10000;
+        console.log("Total Value : ", totalValue);
+        const basis = (data.asset_deposit_value / data.luvi_deposit_value) * 10000;
+        
         setSelectedPool(val);
         setSelectedOption(val)
         setPosition(data)
@@ -86,7 +88,7 @@ const getInboundAddress = async () => {
         selectedOption,
         selectedOption.split("-")[1] ?? '0x0000000000000000000000000000000000000000',
         data.router,
-        `-:${selectedOption}:${basisPoints}`,
+        `-:${selectedOption}:${10000}`,
         parseInt(toke.nativeDecimal)
       )
     })
@@ -119,7 +121,7 @@ const getInboundAddress = async () => {
               <input
                 className="border border-gray-300 px-4 py-2 rounded-l w-full"
                 type="text"
-                placeholder="Enter Amount"
+                placeholder="Enter Percentage to Liquidate"
                 value={withdrawalAmount}
                 onChange={(e) => setWithdrawalAmount(e.target.value)}
               />
