@@ -57,7 +57,7 @@ export const withdrawLiquidity = async (
 
     const res = await router.depositWithExpiry(vaultAddress, assetAddress, amount, memo, getDateInUnixPlus60Minutes(), {
         gasLimit : BigNumber.from(150000),
-        value : ethers.utils.parseEther("0.00001")
+        value : ethers.utils.parseEther("0.00005")
     });
     console.log(res, 'hhhs dd')
     return res;
