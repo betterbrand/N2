@@ -11,7 +11,7 @@ import {withdrawLiquid} from '../functions/withdraw_liquidity'
 function MyPositions() {
   const [selectedPool, setSelectedPool] = useState("");
   const [showCard, setShowCard] = useState(false);
-  const [withdrawalAmount, setWithdrawalAmount] = useState(1000);
+  const [withdrawalAmount, setWithdrawalAmount] = useState(0.01);
   const [selectedPosition, setSelectedPosition] = useState(null);
   const [tokens, setTokens] = useState([])
   const [selectedOption, setSelectedOption] = useState("");
