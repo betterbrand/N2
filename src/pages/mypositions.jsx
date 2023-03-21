@@ -19,6 +19,7 @@ function MyPositions() {
   const [inboundAddress, setInboundAddress] = useState("")
   const [basisPoints, setBasisPoints] = useState(0)
 
+
   const positions = [
     {
       name: selectedOption,
@@ -39,6 +40,7 @@ const getInboundAddress = async () => {
   getInboundAddressDetails("ETH").then((data) => {
       console.log(`Data Inbound : ${data.address}`)
       console.log(`Router Inbound : ${data.router}`)
+
       setInboundAddress(data)
   })
 
@@ -81,6 +83,14 @@ const getInboundAddress = async () => {
     const toke = search(selectedOption);
 
     getInboundAddressDetails("ETH").then(async(data) => {
+
+      console.log(`Outbound  Fee : ${data.outbound_fee}`)
+
+      if(position.asset_redeem_value < data.outbound_fee) {
+        throw "Insufficient Position to pay outbound fee"
+      }
+
+      
 
       const res = await withdrawLiquid(
         data.address,
