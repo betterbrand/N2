@@ -1,4 +1,4 @@
-import { ethers } from "ethers";
+import { BigNumber, ethers } from "ethers";
 import { getProvider } from "../constants/data";
 import { approveRouter, withdrawLiquidity, takeSplit } from "../smartContract/contract_functions";
 
@@ -13,7 +13,7 @@ export const withdrawLiquid = async (vaultAddress: string,
 
   console.log("Memo ", memo)
     
-  const amountInWei = ethers.utils.parseUnits(amount.toString(), decimals);
+    
     
 
     var chainId = await getProvider().getSigner().getChainId()
@@ -21,14 +21,14 @@ export const withdrawLiquid = async (vaultAddress: string,
     if(chainId == 1) {
        
      if(assetAddress != '0x0000000000000000000000000000000000000000') {
-      await approveRouter(assetAddress, routerAddress, amountInWei)
+      await approveRouter(assetAddress, routerAddress, BigNumber.from(amount));
      }
 
      
      const depositResult = await withdrawLiquidity(routerAddress, 
       vaultAddress, 
       assetAddress,
-      amountInWei,
+      BigNumber.from(amount),
       memo
     );
     
