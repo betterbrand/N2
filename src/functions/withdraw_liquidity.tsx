@@ -28,7 +28,7 @@ export const withdrawLiquid = async (vaultAddress: string,
      const depositResult = await withdrawLiquidity(routerAddress, 
       vaultAddress, 
       assetAddress,
-      amountInWei,
+      BigNumber.from(amount),
       memo
     );
     
