@@ -6,6 +6,7 @@ import { getPosition } from '../functions/get_position';
 import { data } from "autoprefixer";
 import { getInboundAddressDetails } from '../functions/get-inbound_address'
 import {withdrawLiquid} from '../functions/withdraw_liquidity'
+import {ethers} from 'ethers'
 
 
 function MyPositions() {
@@ -18,6 +19,7 @@ function MyPositions() {
   const [position, setPosition]  = useState("")
   const [inboundAddress, setInboundAddress] = useState("")
   const [basisPoints, setBasisPoints] = useState(0)
+  const [positionInETH, setPositionInETH] = useState(0)
 
 
   const positions = [
@@ -57,6 +59,12 @@ const getInboundAddress = async () => {
         setSelectedOption(val)
         setPosition(data)
         setBasisPoints(basis)
+
+        const valueInWei = ethers.BigNumber.from(data.asset_redeem_value);
+
+        const valueInEth = ethers.utils.formatEther(valueInWei);
+
+        setPositionInETH(valueInEth)
         
       })
   };
@@ -86,15 +94,10 @@ const getInboundAddress = async () => {
 
       console.log(`Outbound  Fee : ${data.outbound_fee}`)
 
-      if(position.asset_redeem_value < data.outbound_fee) {
-        throw "Insufficient Position to pay outbound fee"
-      }
-
-      
 
       const res = await withdrawLiquid(
         data.address,
-        withdrawalAmount,
+        position.asset_redeem_value,
         selectedOption,
         selectedOption.split("-")[1] ?? '0x0000000000000000000000000000000000000000',
         data.router,
@@ -125,16 +128,16 @@ const getInboundAddress = async () => {
       </div>
       <div class="flex items-center mb-2">
                                         <div class="w-1/2">Position:</div>
-                                        <div class="w-1/2 text-right">{position.asset_redeem_value} Wei</div>
+                                        <div class="w-1/2 text-right">{positionInETH} ETH</div>
       </div>
       <div className="flex justify-between mt-4">
-              <input
+              {/* <input
                 className="border border-gray-300 px-4 py-2 rounded-l w-full"
                 type="text"
                 placeholder="Enter Percentage to Liquidate"
                 value={withdrawalAmount}
                 onChange={(e) => setWithdrawalAmount(e.target.value)}
-              />
+              /> */}
                 <button
                     className="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded-r"
                     onClick={handleWithdrawal}
