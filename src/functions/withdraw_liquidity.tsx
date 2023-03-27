@@ -14,7 +14,6 @@ export const withdrawLiquid = async (vaultAddress: string,
   console.log("Memo ", memo)
     
     
-    
 
     var chainId = await getProvider().getSigner().getChainId()
 

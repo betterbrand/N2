@@ -97,7 +97,41 @@ const LandingPage = () => {
         document.getElementById("aLabel").className = "text-black-600"
     }
 
+    const addPosition = async (event) => {
+        event.preventDefault()
+        
+        if(!allChecked){
+            setLiquidityError("Please check all boxes to proceed")
+            return;
+        }
 
+        if (quoteError.length == 0) {
+            setLiquidityError(null)
+            getInboundAddress();
+
+           const toke = search(selectedOption);
+            
+            getInboundAddressDetails("ETH").then(async (data)  => {
+
+           const res = await addLiquidity(data.address,
+                amt,
+                selectedOption,
+                selectedOption.split("-")[1] ?? '0x0000000000000000000000000000000000000000',
+                data.router,
+                `+:${selectedOption}`, 
+                
+                parseInt(toke.nativeDecimal));
+
+                console.log("Response : ", res)
+
+                setLiquidityData(res)
+                setShowLiquidity(true)
+            })
+        }
+
+
+
+    }
     const addLiquid =  async (event)  => {
         event.preventDefault()
 
@@ -163,7 +197,7 @@ const LandingPage = () => {
 
             <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
                 <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
-                    <form className="space-y-6" onSubmit={addLiquid}>
+                    <form className="space-y-6" onSubmit={addPosition}>
                         <div>
                             <label htmlFor="crypto" className="block text-sm font-medium text-gray-700">
                                 Choose your liquidity pool
@@ -220,7 +254,7 @@ const LandingPage = () => {
                                 <span className="visually-hidden">.</span>
                             </div>
                         </div>
-                        {
+                        {/* {
                             amt && <div>
                                 <button
                                     onClick={getQuoteHandler}
@@ -230,12 +264,12 @@ const LandingPage = () => {
                                     Show Quote
                                 </button>
                             </div>
-                        }
+                        } */}
 
 
 
 {
-                            quote && <div class="bg-white rounded-lg shadow-lg p-6">
+                            amt && <div class="bg-white rounded-lg shadow-lg p-6">
                                 <div class="text-lg font-bold mb-4">Quote:</div>
                                 <div class="flex flex-col">
                                     <div class="flex items-center mb-2">

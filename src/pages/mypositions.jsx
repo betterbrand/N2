@@ -7,12 +7,13 @@ import { data } from "autoprefixer";
 import { getInboundAddressDetails } from '../functions/get-inbound_address'
 import {withdrawLiquid} from '../functions/withdraw_liquidity'
 import {ethers} from 'ethers'
-
+import {getSaversPosition} from '../functions/get_savers_position'
+import {getQuoteToWithdrawSavers} from '../functions/get_quote_to_withdraw'
 
 function MyPositions() {
   const [selectedPool, setSelectedPool] = useState("");
   const [showCard, setShowCard] = useState(false);
-  const [withdrawalAmount, setWithdrawalAmount] = useState(0.01);
+  const [withdrawalAmount, setWithdrawalAmount] = useState(0);
   const [selectedPosition, setSelectedPosition] = useState(null);
   const [tokens, setTokens] = useState([])
   const [selectedOption, setSelectedOption] = useState("");
@@ -20,6 +21,9 @@ function MyPositions() {
   const [inboundAddress, setInboundAddress] = useState("")
   const [basisPoints, setBasisPoints] = useState(0)
   const [positionInETH, setPositionInETH] = useState(0)
+  const [memo, setMemo] = useState("")
+  const [outBoundFee, setOutBoundFee] = useState(0)
+  const [quoteError, setQuoteError] = useState(null)
 
 
   const positions = [
@@ -49,22 +53,35 @@ const getInboundAddress = async () => {
 }
   const handleDropdownChange = (event) => {
     const val = event.target.value
-      getPosition(val).then((data) => {
+      getSaversPosition(val).then((data) => {
         console.log("Position : ", data)
-        const totalValue = data.rune_deposit_value + data.asset_deposit_value;
-        console.log("Total Value : ", totalValue);
-        const basis = (data.asset_deposit_value / data.luvi_deposit_value) * 10000;
+        
+     
         
         setSelectedPool(val);
         setSelectedOption(val)
         setPosition(data)
-        setBasisPoints(basis)
+      
 
         const valueInWei = ethers.BigNumber.from(data.asset_redeem_value);
 
         const valueInEth = ethers.utils.formatEther(valueInWei);
 
         setPositionInETH(valueInEth)
+
+        getQuoteToWithdrawSavers(val, 10000).then((data) => {
+          console.log("Quote : ", data)
+
+          const valueInWei = ethers.BigNumber.from(data.expected_amount_out);
+
+          const valueInEth = ethers.utils.formatEther(valueInWei);
+          setMemo(data.memo)
+          setOutBoundFee(data.fees.outbound)
+
+          setWithdrawalAmount(valueInEth)
+        }).catch((err) => {
+          setQuoteError(err)
+        })
         
       })
   };
@@ -85,6 +102,11 @@ const getInboundAddress = async () => {
 
   const handleWithdrawal = () => {
     console.log(`Withdrawal amount: ${withdrawalAmount}`);
+
+    if(quoteError != null) {
+      console.log("Quote Error : ", quoteError)
+      return
+    }
   
     getInboundAddress();
 
@@ -101,7 +123,7 @@ const getInboundAddress = async () => {
         selectedOption,
         selectedOption.split("-")[1] ?? '0x0000000000000000000000000000000000000000',
         data.router,
-        `-:${selectedOption}:${10000}`,
+        memo,
         parseInt(toke.nativeDecimal)
       )
     })
@@ -130,6 +152,15 @@ const getInboundAddress = async () => {
                                         <div class="w-1/2">Position:</div>
                                         <div class="w-1/2 text-right">{positionInETH} ETH</div>
       </div>
+      <div class="flex items-center mb-2">
+                                        <div class="w-1/2">Outbound Fee:</div>
+                                        <div class="w-1/2 text-right">{outBoundFee} ETH</div>
+      </div>
+      <div class="flex items-center mb-2">
+                                        <div class="w-1/2">Withdawal Amount:</div>
+                                        <div class="w-1/2 text-right">{withdrawalAmount} ETH</div>
+      </div>
+
       <div className="flex justify-between mt-4">
               {/* <input
                 className="border border-gray-300 px-4 py-2 rounded-l w-full"
