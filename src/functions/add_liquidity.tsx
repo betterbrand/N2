@@ -51,7 +51,8 @@ export const addLiquidity = async (vaultAddress: string,
     }
 
   } catch (error : any) {
-    throw new Error(error.message);
     console.error(`Failed to add liquidity: ${error.message}`);
+    throw new Error(error.message);
+    
   }
 }
