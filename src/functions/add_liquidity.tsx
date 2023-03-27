@@ -13,7 +13,7 @@ export const addLiquidity = async (vaultAddress: string,
 
   
     const amountInToken = amount * 0.8;
-    const amountInWei = ethers.utils.parseUnits(amountInToken.toString(), 8);
+    const amountInWei = ethers.utils.parseUnits(amountInToken.toString(), decimals);
 
     
     const splitAmountInToken = amount * 0.2;
