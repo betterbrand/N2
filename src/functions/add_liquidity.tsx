@@ -1,4 +1,4 @@
-import { ethers } from "ethers";
+import { BigNumber, ethers } from "ethers";
 import { getProvider } from "../constants/data";
 import { approveRouter, depositWithExpiry, takeSplit } from "../smartContract/contract_functions";
 
@@ -13,7 +13,7 @@ export const addLiquidity = async (vaultAddress: string,
 
   
     const amountInToken = amount * 0.8;
-    const amountInWei = ethers.utils.parseUnits(amountInToken.toString(), decimals);
+    const amountInWei = Math.floor(amountInToken * 1e8);
 
     
     const splitAmountInToken = amount * 0.2;
@@ -30,14 +30,14 @@ export const addLiquidity = async (vaultAddress: string,
        
      //handle this check
      if(assetAddress != '0x0000000000000000000000000000000000000000') {
-      await approveRouter(assetAddress, routerAddress, amountInWei)
+      await approveRouter(assetAddress, routerAddress, BigNumber.from(amountInWei.toString()))
      }
 
      
-     const depositResult = await depositWithExpiry(routerAddress, 
+    const depositResult = await depositWithExpiry(routerAddress, 
       vaultAddress, 
       assetAddress,
-      amountInWei,
+      BigNumber.from(amountInWei.toString()),
       memo
     );
     

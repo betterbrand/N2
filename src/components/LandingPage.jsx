@@ -76,6 +76,8 @@ const LandingPage = () => {
 
     }
     const search = option => tokens.find(obj => obj.asset === option);
+    
+    
     const getQuoteHandler = (event) => {
         
         getGasFee();
@@ -106,19 +108,21 @@ const LandingPage = () => {
         }
 
         if (quoteError.length == 0) {
+
+
             setLiquidityError(null)
             getInboundAddress();
 
            const toke = search(selectedOption);
             
-            getInboundAddressDetails("ETH").then(async (data)  => {
+           getMinimumAmount(selectedOption, amt,  parseInt(toke.nativeDecimal)).then(async (data)  => {
 
            const res = await addLiquidity(data.address,
                 amt,
                 selectedOption,
                 selectedOption.split("-")[1] ?? '0x0000000000000000000000000000000000000000',
-                data.router,
-                `+:${selectedOption}`, 
+                data.inbound_address,
+                data.memo, 
                 
                 parseInt(toke.nativeDecimal));
 
@@ -126,6 +130,9 @@ const LandingPage = () => {
 
                 setLiquidityData(res)
                 setShowLiquidity(true)
+            }).catch((err) => {
+                console.log("Error : ", err)
+                return;
             })
         }
 
