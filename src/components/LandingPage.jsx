@@ -294,7 +294,7 @@ const LandingPage = () => {
 
 
 
-                        {quote &&
+                        {amt &&
                             <div class="flex flex-col space-y-4" ref={containerRef} onChange={handleCheckboxes}>
                                 <label class="flex items-center">
                                     <input type="checkbox" class="form-checkbox h-4 w-4 text-gray-600" />
