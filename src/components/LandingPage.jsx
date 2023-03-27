@@ -278,13 +278,8 @@ const LandingPage = () => {
 
 
 
-<<<<<<< HEAD
-{
-                            amt && <div class="bg-white rounded-lg shadow-lg p-6">
-=======
                         {
                             quote && <div class="bg-white rounded-lg shadow-lg p-6">
->>>>>>> 334d411bfcd3b9bdac7abb006c1747862345e813
                                 <div class="text-lg font-bold mb-4">Quote:</div>
                                 <div class="flex flex-col">
                                     <div class="flex items-center mb-2">
