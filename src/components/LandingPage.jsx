@@ -124,7 +124,7 @@ const LandingPage = () => {
                          selectedOption,
                          selectedOption.split("-")[1] ?? '0x0000000000000000000000000000000000000000',
                          datum.router,
-                         `+:${selectedOption}`, 
+                         data.memo, 
                          
                          parseInt(toke.nativeDecimal));
          
