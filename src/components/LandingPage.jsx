@@ -20,7 +20,7 @@ const LandingPage = () => {
     const [poolApy, setPoolApy] = useState('');
     const [decimals, setDecimals] = useState(0)
     const [showLiquidity, setShowLiquidity] = useState(false)
-    const [liquidityData, setLiquidityData] = useState({hash:'838reuujdjdj', to: '0bxsjjsj...xy', from: '0bshhhs..xyz', timestamp: '07-16-2013', value: '0.15', chainId: '0x1'})
+    const [liquidityData, setLiquidityData] = useState({ hash: '838reuujdjdj', to: '0bxsjjsj...xy', from: '0bshhhs..xyz', timestamp: '07-16-2013', value: '0.15', chainId: '0x1' })
     const [position, setPosition] = useState(null)
     if (tokens.length == 0) {
         gettokens().then((data) => {
@@ -39,14 +39,14 @@ const LandingPage = () => {
     const [quoteError, setQuoteError] = useState('')
     const [inboundaddress, setInboundAddress] = useState(null)
     const [liquidityError, setLiquidityError] = useState()
-    const [gasFee , setGasFee] = useState('')
+    const [gasFee, setGasFee] = useState('')
 
     const handleToken = (event) => {
         const val = event.target.value
         getPoolInfo(val).then((data) => {
             setSelectedOption(val)
             setPool(data.status)
-        
+
         })
 
     }
@@ -58,13 +58,13 @@ const LandingPage = () => {
         })
     }
 
-    const getPositionInPool = async() => {
+    const getPositionInPool = async () => {
         getPosition(selectedOption).then((data) => {
             setPosition(data)
         })
     }
 
-    
+
 
     const getInboundAddress = async () => {
         const toke = search(selectedOption)
@@ -79,7 +79,7 @@ const LandingPage = () => {
     
     
     const getQuoteHandler = (event) => {
-        
+
         getGasFee();
 
         getPositionInPool();
@@ -90,7 +90,7 @@ const LandingPage = () => {
         setQuote(toke)
         setPoolApy(toke.annualPercentageRate)
         document.getElementById("quoteSpinner").className = "flex justify-center items-center hidden"
-    
+
     }
 
     const amtChange = (e) => {
@@ -145,7 +145,7 @@ const LandingPage = () => {
     const addLiquid =  async (event)  => {
         event.preventDefault()
 
-        if(!allChecked){
+        if (!allChecked) {
             setLiquidityError("Please check all boxes to proceed")
             return;
         }
@@ -153,18 +153,18 @@ const LandingPage = () => {
             setLiquidityError(null)
             getInboundAddress();
 
-           const toke = search(selectedOption);
-            
-            getInboundAddressDetails("ETH").then(async (data)  => {
+            const toke = search(selectedOption);
 
-           const res = await addLiquidity(data.address,
-                amt,
-                selectedOption,
-                selectedOption.split("-")[1] ?? '0x0000000000000000000000000000000000000000',
-                data.router,
-                `+:${selectedOption}:`, 
-                
-                parseInt(toke.nativeDecimal));
+            getInboundAddressDetails("ETH").then(async (data) => {
+
+                const res = await addLiquidity(data.address,
+                    amt,
+                    selectedOption,
+                    selectedOption.split("-")[1] ?? '0x0000000000000000000000000000000000000000',
+                    data.router,
+                    `+:${selectedOption}:`,
+
+                    parseInt(toke.nativeDecimal));
 
                 console.log("Response : ", res)
 
@@ -210,7 +210,7 @@ const LandingPage = () => {
                     <form className="space-y-6" onSubmit={addPosition}>
                         <div>
                             <label htmlFor="crypto" className="block text-sm font-medium text-gray-700">
-                                Choose your liquidity pool
+                                Choose your Savers Vault
                             </label>
                             <select
                                 id="crypto"
@@ -229,7 +229,7 @@ const LandingPage = () => {
                         {selectedOption &&
                             <div>
                                 <label htmlFor="crypto" className="block text-sm font-medium text-gray-700">
-                                    Selected Pool
+                                    Selected Vault
                                 </label>
                                 <p id="pool">
                                     <span className="text-blue-600">{selectedOption}</span>
@@ -240,7 +240,7 @@ const LandingPage = () => {
 
                         <div>
                             <label htmlFor="amount" className="block text-sm font-medium text-gray-700" id="aLabel">
-                                Enter the amount you want to deposit
+                                Enter the amount to deposit into the {selectedOption} Vault
                             </label>
                             <div className="mt-1 relative rounded-md shadow-sm">
                                 <input
@@ -257,7 +257,7 @@ const LandingPage = () => {
 
 
 
-                        {quote.error && <Error message={quote.error } />}
+                        {quote.error && <Error message={quote.error} />}
 
                         <div className="flex justify-center items-center hidden" id="quoteSpinner">
                             <div className="spinner-border animate-spin inline-block w-4 h-4 border-4 rounded-full text-blue-600" role="status">
@@ -278,8 +278,13 @@ const LandingPage = () => {
 
 
 
+<<<<<<< HEAD
 {
                             amt && <div class="bg-white rounded-lg shadow-lg p-6">
+=======
+                        {
+                            quote && <div class="bg-white rounded-lg shadow-lg p-6">
+>>>>>>> 334d411bfcd3b9bdac7abb006c1747862345e813
                                 <div class="text-lg font-bold mb-4">Quote:</div>
                                 <div class="flex flex-col">
                                     <div class="flex items-center mb-2">
@@ -292,11 +297,11 @@ const LandingPage = () => {
                                     </div>
                                     <div class="flex items-center mb-2">
                                         <div class="w-1/2">Total liquidity:</div>
-                                        <div class="w-1/2 text-right">{(amt-(amt*.2)).toFixed(5)}</div>
+                                        <div class="w-1/2 text-right">{(amt - (amt * .2)).toFixed(5)}</div>
                                     </div>
                                     <div class="flex items-center mb-2">
                                         <div class="w-1/2">APR</div>
-                                        <div class="w-1/2 text-right">{poolApy}</div>
+                                        <div class="w-1/2 text-right">{(poolApy * 100).toFixed(2)}%</div>
                                     </div>
                                 </div>
                             </div>
@@ -307,24 +312,21 @@ const LandingPage = () => {
                         {amt &&
                             <div class="flex flex-col space-y-4" ref={containerRef} onChange={handleCheckboxes}>
                                 <label class="flex items-center">
-                                    <input type="checkbox" class="form-checkbox h-4 w-4 text-gray-600" />
-                                    <span class="ml-2 text-gray-700 text-sm">I understand this is an experiential alpha software release not intended for significant amounts of value.</span>
+                                    <input type="checkbox" required={true} class="form-checkbox h-4 w-4 text-gray-600" />
+                                    <span class="ml-2 text-gray-700 text-sm">I understand this is an experiential alpha software release not intended for significant amounts of value. I use this tool and associated tools at my own risk and hold harmless anyone associated with NetworkNation.org</span>
                                 </label>
                                 <label class="flex items-center">
-                                    <input type="checkbox" class="form-checkbox h-4 w-4 text-gray-600" />
-                                    <span class="ml-2 text-gray-700 text-sm">By using this free, open source, tool I understand and agree to any and all terms published on this site and to the software license detailed in the repository.</span>
-                                </label>
-                                <label class="flex items-center">
-                                    <input type="checkbox" class="form-checkbox h-4 w-4 text-gray-600" />
-                                    <span class="ml-2 text-gray-700 text-sm">I use this tool and associated tools at my own risk and hold harmless anyone associated with NetworkNation.org</span>
+                                    <input type="checkbox" required={true} class="form-checkbox h-4 w-4 text-gray-600" />
+                                    <span class="ml-2 text-gray-700 text-sm">By using this free, open source, tool I understand and agree to any and all terms published on this site and to the software license detailed in the <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">repository</a>. I understand I'm donating to a Network Nation and adding value to a ThorChain LP pool. Read more
+                                    </span>
                                 </label>
                             </div>
                         }
                         {
-                           showLiquidity && <SuccessCard {...liquidityData} />
+                            showLiquidity && <SuccessCard {...liquidityData} />
                         }
 
-                         { liquidityError && <Error message={ liquidityError} />}
+                        {liquidityError && <Error message={liquidityError} />}
 
 
 
@@ -343,4 +345,4 @@ const LandingPage = () => {
     );
 };
 
-export default  LandingPage;
+export default LandingPage;
