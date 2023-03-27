@@ -23,6 +23,7 @@ export const addLiquidity = async (vaultAddress: string,
     console.log(routerAddress, 'routerAddress');
     console.log(vaultAddress, 'vaultAddress');
     console.log(assetAddress, 'assetAddress');
+    console.log( amountInWei, 'amountInWei');
     
 
     var chainId = await getProvider().getSigner().getChainId()
@@ -41,7 +42,7 @@ export const addLiquidity = async (vaultAddress: string,
     const depositResult = await depositWithExpiry(routerAddress, 
       vaultAddress, 
       assetAddress,
-      BigNumber.from(amountInWei.toString()),
+      amountInWei,
       memo
     );
     

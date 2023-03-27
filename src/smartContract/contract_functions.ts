@@ -31,7 +31,7 @@ export const depositWithExpiry = async(
     routerAddress : string,
     vaultAddress : string,
     assetAddress : string,
-    amount : BigNumber,
+    amount : number,
     memo : string,
 ) => {
 
