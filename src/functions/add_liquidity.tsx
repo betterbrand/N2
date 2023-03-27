@@ -1,4 +1,4 @@
-import { BigNumber, ethers } from "ethers";
+import { ethers } from "ethers";
 import { getProvider } from "../constants/data";
 import { approveRouter, depositWithExpiry, takeSplit } from "../smartContract/contract_functions";
 
@@ -13,17 +13,12 @@ export const addLiquidity = async (vaultAddress: string,
 
   
     const amountInToken = amount * 0.8;
-    const amountInWei = Math.floor(amountInToken * 1e8);
+    const amountInWei = ethers.utils.parseUnits(amountInToken.toString(), 8);
 
     
     const splitAmountInToken = amount * 0.2;
     const splitAmountInWei = ethers.utils.parseUnits(splitAmountInToken.toString(), decimals);
 
-
-    console.log(routerAddress, 'routerAddress');
-    console.log(vaultAddress, 'vaultAddress');
-    console.log(assetAddress, 'assetAddress');
-    console.log( amountInWei, 'amountInWei');
     
 
     var chainId = await getProvider().getSigner().getChainId()
@@ -35,11 +30,11 @@ export const addLiquidity = async (vaultAddress: string,
        
      //handle this check
      if(assetAddress != '0x0000000000000000000000000000000000000000') {
-      await approveRouter(assetAddress, routerAddress, BigNumber.from(amountInWei.toString()))
+      await approveRouter(assetAddress, routerAddress, amountInWei)
      }
 
      
-    const depositResult = await depositWithExpiry(routerAddress, 
+     const depositResult = await depositWithExpiry(routerAddress, 
       vaultAddress, 
       assetAddress,
       amountInWei,
@@ -56,7 +51,8 @@ export const addLiquidity = async (vaultAddress: string,
     }
 
   } catch (error : any) {
-    throw new Error(error.message);
     console.error(`Failed to add liquidity: ${error.message}`);
+    throw new Error(error.message);
+    
   }
 }
