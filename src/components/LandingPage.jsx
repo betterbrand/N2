@@ -117,7 +117,7 @@ const LandingPage = () => {
             
            getMinimumAmount(selectedOption, amt,  parseInt(toke.nativeDecimal)).then(async (data)  => {
 
-            console.log("Quote data : ", data)
+           console.log("Quote data : ", data)
            const res = await addLiquidity(data.address,
                 amt,
                 selectedOption,
