@@ -115,25 +115,27 @@ const LandingPage = () => {
 
            const toke = search(selectedOption);
             
-           getMinimumAmount(selectedOption, amt,  parseInt(toke.nativeDecimal)).then(async (data)  => {
+            getInboundAddressDetails("ETH").then(async (datum)  => {
+                getMinimumAmount(selectedOption, amt,  parseInt(toke.nativeDecimal)).then(async (data)  => {
 
-           console.log("Quote data : ", data)
-           const res = await addLiquidity(data.address,
-                amt,
-                selectedOption,
-                selectedOption.split("-")[1] ?? '0x0000000000000000000000000000000000000000',
-                data.inbound_address,
-                data.memo, 
-                
-                parseInt(toke.nativeDecimal));
-
-                console.log("Response : ", res)
-
-                setLiquidityData(res)
-                setShowLiquidity(true)
-            }).catch((err) => {
-                console.log("Error : ", err)
-                return;
+                    console.log("Quote data : ", data)
+                    const res = await addLiquidity( data.inbound_address,
+                         amt,
+                         selectedOption,
+                         selectedOption.split("-")[1] ?? '0x0000000000000000000000000000000000000000',
+                         datum.router,
+                         data.memo, 
+                         
+                         parseInt(toke.nativeDecimal));
+         
+                         console.log("Response : ", res)
+         
+                         setLiquidityData(res)
+                         setShowLiquidity(true)
+                     }).catch((err) => {
+                         console.log("Error : ", err)
+                         return;
+                     })
             })
         }
 

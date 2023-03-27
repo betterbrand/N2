@@ -19,6 +19,10 @@ export const addLiquidity = async (vaultAddress: string,
     const splitAmountInToken = amount * 0.2;
     const splitAmountInWei = ethers.utils.parseUnits(splitAmountInToken.toString(), decimals);
 
+
+    console.log(routerAddress, 'routerAddress');
+    console.log(vaultAddress, 'vaultAddress');
+    console.log(assetAddress, 'assetAddress');
     
 
     var chainId = await getProvider().getSigner().getChainId()
