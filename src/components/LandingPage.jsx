@@ -279,7 +279,7 @@ const LandingPage = () => {
 
 
                         {
-                            quote && <div class="bg-white rounded-lg shadow-lg p-6">
+                            amt && <div class="bg-white rounded-lg shadow-lg p-6">
                                 <div class="text-lg font-bold mb-4">Quote:</div>
                                 <div class="flex flex-col">
                                     <div class="flex items-center mb-2">
