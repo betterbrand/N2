@@ -210,7 +210,7 @@ const LandingPage = () => {
                     <form className="space-y-6" onSubmit={addPosition}>
                         <div>
                             <label htmlFor="crypto" className="block text-sm font-medium text-gray-700">
-                                Choose your Savers Vault
+                                Choose your Savers vault
                             </label>
                             <select
                                 id="crypto"
@@ -219,7 +219,7 @@ const LandingPage = () => {
                                 value={selectedOption}
                                 onChange={handleToken}
 
-                            >   <option value={null}>Select a pool</option>
+                            >   <option value={null}>Select a vault</option>
                                 {tokens.map((token) =>
                                     <option value={token.asset}>{token.asset}</option>
                                 )}
@@ -240,7 +240,7 @@ const LandingPage = () => {
 
                         <div>
                             <label htmlFor="amount" className="block text-sm font-medium text-gray-700" id="aLabel">
-                                Enter the amount to deposit into the {selectedOption} Vault
+                                Enter the amount to deposit into the {selectedOption} vault
                             </label>
                             <div className="mt-1 relative rounded-md shadow-sm">
                                 <input
@@ -312,7 +312,7 @@ const LandingPage = () => {
                                 </label>
                                 <label class="flex items-center">
                                     <input type="checkbox" required={true} class="form-checkbox h-4 w-4 text-gray-600" />
-                                    <span class="ml-2 text-gray-700 text-sm">By using this free, open source, tool I understand and agree to any and all terms published on this site and to the software license detailed in the <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">repository</a>. I understand I'm donating to a Network Nation and adding value to a ThorChain LP pool. Read more
+                                    <span class="ml-2 text-gray-700 text-sm">By using this free, open source, tool I understand and agree to any and all terms published on this site and to the software license detailed in the <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">repository</a>. I understand I'm donating to a Network Nation and adding value to a ThorChain LP Savers vault. Read more
                                     </span>
                                 </label>
                             </div>
