@@ -74,9 +74,14 @@ const getInboundAddress = async () => {
 
           const valueInWei = ethers.BigNumber.from(data.expected_amount_out);
 
-          const valueInEth = ethers.utils.formatEther(valueInWei);
+          const valueInEth = parseInt(data.expected_amount_out, 10) / 1e8;;
+
+          const OutboundFeeINWei = ethers.BigNumber.from(data.fees.outbound);
+
+          const OutboundFeeInEth = parseInt(data.fees.outbound, 10) / 1e8;
+          
           setMemo(data.memo)
-          setOutBoundFee(data.fees.outbound)
+          setOutBoundFee(OutboundFeeInEth)
 
           setWithdrawalAmount(valueInEth)
         }).catch((err) => {
