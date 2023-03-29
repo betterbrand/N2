@@ -72,13 +72,18 @@ const getInboundAddress = async () => {
         getQuoteToWithdrawSavers(val, 10000).then((data) => {
           console.log("Quote : ", data)
 
-          const valueInWei = ethers.BigNumber.from(data.expected_amount_out);
+        
 
           const valueInEth = parseInt(data.expected_amount_out, 10) / 1e8;
 
-          const OutboundFeeINWei = ethers.BigNumber.from(data.fees.outbound);
+          
+          console.log("valueInEth : ", valueInEth)
+
+          
 
           const OutboundFeeInEth = parseInt(data.fees.outbound, 10) / 1e8;
+
+          console.log("OutboundFeeInEth : ", OutboundFeeInEth)
           
           setMemo(data.memo)
           setOutBoundFee(OutboundFeeInEth)
