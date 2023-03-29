@@ -65,7 +65,7 @@ const getInboundAddress = async () => {
 
         const valueInWei = ethers.BigNumber.from(data.asset_redeem_value);
 
-        const valueInEth = ethers.utils.formatEther(valueInWei);
+        const valueInEth = parseInt(data.asset_redeem_value, 10) / 1e8;
 
         setPositionInETH(valueInEth)
 
@@ -74,7 +74,7 @@ const getInboundAddress = async () => {
 
           const valueInWei = ethers.BigNumber.from(data.expected_amount_out);
 
-          const valueInEth = parseInt(data.expected_amount_out, 10) / 1e8;;
+          const valueInEth = parseInt(data.expected_amount_out, 10) / 1e8;
 
           const OutboundFeeINWei = ethers.BigNumber.from(data.fees.outbound);
 
