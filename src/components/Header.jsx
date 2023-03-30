@@ -4,7 +4,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 import Image from 'next/image'
 
 import { Container } from './Container'
-import Logo  from '../images/logos/logo.jpg'
+import Logo from '../images/logos/logo.jpg'
 import { NavLinks } from './NavLinks'
 
 
@@ -12,9 +12,9 @@ import { useState } from "react";
 
 
 
-import {SignInWithWalletButton} from '../components/SignInWithWallet'
+import { SignInWithWalletButton } from '../components/SignInWithWallet'
 
-import {useUserDataContext} from "../context/userDataContext"
+import { useUserDataContext } from "../context/userDataContext"
 
 
 
@@ -63,47 +63,48 @@ export function Header() {
 
   const handleMobileMenu = () => {
     setIsOpen(!isOpen);
- };
+  };
 
 
   user.provider?.provider.on("chainChanged", (chainId) => {
     setUser((prevState) => ({ ...prevState, chainId: parseInt(chainId, 16) }));
-});
+  });
 
-function disconnect() {
-  web3modal.clearCachedProvider();
-  sessionStorage.removeItem("accessToken");
-  setUser((prevState) => ({
+  function disconnect() {
+    web3modal.clearCachedProvider();
+    sessionStorage.removeItem("accessToken");
+    setUser((prevState) => ({
       ...prevState,
       connected: false,
       chainId: 0,
       walletAddress: "",
-  }));
-  
-}
+    }));
 
-user.provider?.provider.on("accountsChanged", (chainId) => {
-  disconnect();
-});
+  }
 
-user.provider?.provider.on("disconnect", (code, reason) => {
-  disconnect();
-});
-  
+  user.provider?.provider.on("accountsChanged", (chainId) => {
+    disconnect();
+  });
+
+  user.provider?.provider.on("disconnect", (code, reason) => {
+    disconnect();
+  });
+
   return (
     <header className='bg-gray-900'>
       <nav>
         <Container className="relative z-50 flex justify-between py-8 bg-gray-900">
           <div className="relative z-10 flex items-center gap-16">
-            <Image
-              src={Logo}
-              alt="Picture of the author"
-              width={500}
-              height={500}
-              className="mx-auto h-8 w-auto"
-            />
+            <a href="/">
+              <Image
+                src={Logo}
+                alt="Picture of the author"
+                width={500}
+                height={500}
+                className="mx-auto h-8 w-auto"
+              /></a>
             <div className="hidden lg:flex lg:gap-10">
-              <NavLinks/>
+              <NavLinks />
             </div>
           </div>
           <div className="flex items-center gap-6">
@@ -167,7 +168,7 @@ user.provider?.provider.on("disconnect", (code, reason) => {
             <Link href='/mypositions' className="primaryButton text-white">
               My Positions
             </Link>
-            <SignInWithWalletButton/>
+            <SignInWithWalletButton />
           </div>
         </Container>
       </nav>
