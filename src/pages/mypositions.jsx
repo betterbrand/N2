@@ -65,18 +65,28 @@ const getInboundAddress = async () => {
 
         const valueInWei = ethers.BigNumber.from(data.asset_redeem_value);
 
-        const valueInEth = ethers.utils.formatEther(valueInWei);
+        const valueInEth = parseInt(data.asset_redeem_value, 10) / 1e8;
 
         setPositionInETH(valueInEth)
 
         getQuoteToWithdrawSavers(val, 10000).then((data) => {
           console.log("Quote : ", data)
 
-          const valueInWei = ethers.BigNumber.from(data.expected_amount_out);
+        
 
-          const valueInEth = ethers.utils.formatEther(valueInWei);
+          const valueInEth = parseInt(data.expected_amount_out, 10) / 1e8;
+
+          
+          console.log("valueInEth : ", valueInEth)
+
+          
+
+          const OutboundFeeInEth = parseInt(data.fees.outbound, 10) / 1e8;
+
+          console.log("OutboundFeeInEth : ", OutboundFeeInEth)
+          
           setMemo(data.memo)
-          setOutBoundFee(data.fees.outbound)
+          setOutBoundFee(OutboundFeeInEth)
 
           setWithdrawalAmount(valueInEth)
         }).catch((err) => {

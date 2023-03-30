@@ -5,7 +5,7 @@ const Navbar = () => {
                 <div className="flex items-center justify-between h-16">
                     <div className="flex-shrink-0">
                         {/* <img className="h-8 w-auto" src="/logo.png" alt="Logo" /> */}
-                        <span className="text-white text-md">Net Nation</span>
+                        <span className="text-white text-md">Network Nation</span>
                     </div>
                     <div className=" md:block">
                         <div className="ml-4 flex items-center md:ml-6">
