@@ -11,6 +11,8 @@ import { getProvider } from "../constants/data";
 import SuccessCard from './SuccessCard';
 import { getAddress } from 'ethers/lib/utils';
 import { getPosition } from '../functions/get_position';
+import axios from 'axios';
+import SaverTracker from '../functions/SaverTracker';
 
 
 const LandingPage = () => {
@@ -238,6 +240,8 @@ const LandingPage = () => {
                             </div>
                         }
 
+
+
                         <div>
                             <label htmlFor="amount" className="block text-sm font-medium text-gray-700" id="aLabel">
                                 Enter the amount to deposit into the {selectedOption} vault
@@ -279,25 +283,30 @@ const LandingPage = () => {
 
 
                         {
-                            amt && <div class="bg-white rounded-lg shadow-lg p-6">
-                                <div class="text-lg font-bold mb-4">Quote:</div>
-                                <div class="flex flex-col">
-                                    <div class="flex items-center mb-2">
-                                        <div class="w-1/2">Total Deposit:</div>
-                                        <div class="w-1/2 text-right">{amt}</div>
+                            amt && <div className="bg-white rounded-lg shadow-lg p-6">
+                                <div className="text-lg font-bold mb-4">Quote:</div>
+                                <div className="flex flex-col">
+                                    <div className="flex items-center mb-2">
+                                        <div className="w-1/2">Total Deposit:</div>
+                                        <div className="w-1/2 text-right">{amt}</div>
                                     </div>
-                                    <div class="flex items-center mb-2">
-                                        <div class="w-1/2">Network Nation Split:</div>
-                                        <div class="w-1/2 text-right">{(amt * 0.2).toFixed(5)}</div>
+                                    <div className="flex items-center mb-2">
+                                        <div className="w-1/2">Network Nation Split:</div>
+                                        <div className="w-1/2 text-right">{(amt * 0.2).toFixed(5)}</div>
                                     </div>
-                                    <div class="flex items-center mb-2">
-                                        <div class="w-1/2">Total liquidity:</div>
-                                        <div class="w-1/2 text-right">{(amt - (amt * .2)).toFixed(5)}</div>
+                                    <div className="flex items-center mb-2">
+                                        <div className="w-1/2">Total liquidity:</div>
+                                        <div className="w-1/2 text-right">{(amt - (amt * .2)).toFixed(5)}</div>
                                     </div>
-                                    <div class="flex items-center mb-2">
-                                        <div class="w-1/2">APR</div>
-                                        <div class="w-1/2 text-right">{(poolApy * 100).toFixed(2)}%</div>
+                                    <div className="flex items-center mb-2">
+                                        <div className="w-1/2">APR</div>
+                                        <div className="w-1/2 text-right">{(poolApy * 100).toFixed(2)}%</div>
                                     </div>
+                                    
+
+
+
+
                                 </div>
                             </div>
                         }
