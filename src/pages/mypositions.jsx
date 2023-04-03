@@ -24,6 +24,8 @@ function MyPositions() {
   const [memo, setMemo] = useState("")
   const [outBoundFee, setOutBoundFee] = useState(0)
   const [quoteError, setQuoteError] = useState(null)
+  const [depositValue, setDepositValue] = useState(0)
+  const [growthPercentage, setGrowthPercentage] = useState(0)
 
 
   const positions = [
@@ -63,11 +65,15 @@ const getInboundAddress = async () => {
         setPosition(data)
       
 
-        const valueInWei = ethers.BigNumber.from(data.asset_redeem_value);
+        const depositInWei = parseInt(data.asset_deposit_value, 10) / 1e8;
 
         const valueInEth = parseInt(data.asset_redeem_value, 10) / 1e8;
 
         setPositionInETH(valueInEth)
+
+        setDepositValue(depositInWei)
+
+        setGrowthPercentage(data.growth_pct)
 
         getQuoteToWithdrawSavers(val, 10000).then((data) => {
           console.log("Quote : ", data)
@@ -159,8 +165,16 @@ const getInboundAddress = async () => {
         </div>
       </div>
       <div class="flex items-center mb-2">
-                                        <div class="w-1/2">Position:</div>
+                                        <div class="w-1/2">Redeem Value:</div>
                                         <div class="w-1/2 text-right">{positionInETH} ETH</div>
+      </div>
+      <div class="flex items-center mb-2">
+                                        <div class="w-1/2">Deposit Value:</div>
+                                        <div class="w-1/2 text-right">{depositValue} ETH</div>
+      </div>
+      <div class="flex items-center mb-2">
+                                        <div class="w-1/2">Growth Percentage:</div>
+                                        <div class="w-1/2 text-right">{growthPercentage} ETH</div>
       </div>
       <div class="flex items-center mb-2">
                                         <div class="w-1/2">Outbound Fee:</div>
