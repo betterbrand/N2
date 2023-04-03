@@ -11,9 +11,7 @@ import { getProvider } from "../constants/data";
 import SuccessCard from './SuccessCard';
 import { getAddress } from 'ethers/lib/utils';
 import { getPosition } from '../functions/get_position';
-import axios from 'axios';
-import SaverTracker from '../functions/SaverTracker';
-
+import {getPoolAprPercentage} from '../functions/get_pool_apr'
 
 const LandingPage = () => {
 
@@ -42,12 +40,26 @@ const LandingPage = () => {
     const [inboundaddress, setInboundAddress] = useState(null)
     const [liquidityError, setLiquidityError] = useState()
     const [gasFee, setGasFee] = useState('')
+    const [apr, setApr] = useState(null)
+
 
     const handleToken = (event) => {
         const val = event.target.value
         getPoolInfo(val).then((data) => {
             setSelectedOption(val)
             setPool(data.status)
+
+            const pool = search(val);
+
+            console.log("Pool : ", pool)
+
+            getPoolAprPercentage(pool).then((data) => { 
+                console.log("Pool APR : ", data)
+                setApr(data)
+            })
+
+            
+            
 
         })
 
@@ -238,6 +250,20 @@ const LandingPage = () => {
                                 </p>
 
                             </div>
+                            
+                        }
+
+                    {apr &&
+                            <div>
+                                <label htmlFor="crypto" className="block text-sm font-medium text-gray-700">
+                                    Past 7 days performance
+                                </label>
+                                <p id="pool">
+                                    <span className="text-blue-600">{`${apr.toFixed(2)}%`}</span>
+                                </p>
+
+                            </div>
+                            
                         }
 
 
@@ -300,7 +326,7 @@ const LandingPage = () => {
                                     </div>
                                     <div className="flex items-center mb-2">
                                         <div className="w-1/2">APR</div>
-                                        <div className="w-1/2 text-right">{(poolApy * 100).toFixed(2)}%</div>
+                                        <div className="w-1/2 text-right">{apr}%</div>
                                     </div>
                                     
 
