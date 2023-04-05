@@ -11,7 +11,8 @@ import { getProvider } from "../constants/data";
 import SuccessCard from './SuccessCard';
 import { getAddress } from 'ethers/lib/utils';
 import { getPosition } from '../functions/get_position';
-import {getPoolAprPercentage} from '../functions/get_pool_apr'
+import { getPoolAprPercentage } from '../functions/get_pool_apr'
+import ToggleText from './ToggleText'
 
 const LandingPage = () => {
 
@@ -53,17 +54,29 @@ const LandingPage = () => {
 
             console.log("Pool : ", pool)
 
-            getPoolAprPercentage(pool).then((data) => { 
+            getPoolAprPercentage(pool).then((data) => {
                 console.log("Pool APR : ", data)
                 setApr(data)
             })
 
-            
-            
+
+
 
         })
 
     }
+
+    // create a read more button for a blocl of text.  use lorem ipsum to deomnstrate, but it should work with any text
+    //the button should show/hide 90% of the text
+    //the button should say "read more" when the text is hidden and "read less" when the text is shown
+    //the button should be styled to look like a link
+    //the button should be placed at the bottom of the text
+    //the button should be placed at the bottom of the text when the text is hidden and at the top when the text is shown
+
+
+
+
+
 
     const getGasFee = async () => {
         getEstimatedGasFee().then((data) => {
@@ -90,8 +103,8 @@ const LandingPage = () => {
 
     }
     const search = option => tokens.find(obj => obj.asset === option);
-    
-    
+
+
     const getQuoteHandler = (event) => {
 
         getGasFee();
@@ -115,8 +128,8 @@ const LandingPage = () => {
 
     const addPosition = async (event) => {
         event.preventDefault()
-        
-        if(!allChecked){
+
+        if (!allChecked) {
             setLiquidityError("Please check all boxes to proceed")
             return;
         }
@@ -127,36 +140,36 @@ const LandingPage = () => {
             setLiquidityError(null)
             getInboundAddress();
 
-           const toke = search(selectedOption);
-            
-            getInboundAddressDetails("ETH").then(async (datum)  => {
-                getMinimumAmount(selectedOption, amt,  parseInt(toke.nativeDecimal)).then(async (data)  => {
+            const toke = search(selectedOption);
+
+            getInboundAddressDetails("ETH").then(async (datum) => {
+                getMinimumAmount(selectedOption, amt, parseInt(toke.nativeDecimal)).then(async (data) => {
 
                     console.log("Quote data : ", data)
-                    const res = await addLiquidity( data.inbound_address,
-                         amt,
-                         selectedOption,
-                         selectedOption.split("-")[1] ?? '0x0000000000000000000000000000000000000000',
-                         datum.router,
-                         data.memo, 
-                         
-                         parseInt(toke.nativeDecimal));
-         
-                         console.log("Response : ", res)
-         
-                         setLiquidityData(res)
-                         setShowLiquidity(true)
-                     }).catch((err) => {
-                         console.log("Error : ", err)
-                         return;
-                     })
+                    const res = await addLiquidity(data.inbound_address,
+                        amt,
+                        selectedOption,
+                        selectedOption.split("-")[1] ?? '0x0000000000000000000000000000000000000000',
+                        datum.router,
+                        data.memo,
+
+                        parseInt(toke.nativeDecimal));
+
+                    console.log("Response : ", res)
+
+                    setLiquidityData(res)
+                    setShowLiquidity(true)
+                }).catch((err) => {
+                    console.log("Error : ", err)
+                    return;
+                })
             })
         }
 
 
 
     }
-    const addLiquid =  async (event)  => {
+    const addLiquid = async (event) => {
         event.preventDefault()
 
         if (!allChecked) {
@@ -218,7 +231,6 @@ const LandingPage = () => {
                     </a>
                 </p> */}
             </div>
-
             <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
                 <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
                     <form className="space-y-6" onSubmit={addPosition}>
@@ -250,10 +262,10 @@ const LandingPage = () => {
                                 </p>
 
                             </div>
-                            
+
                         }
 
-                    {apr &&
+                        {apr &&
                             <div>
                                 <label htmlFor="crypto" className="block text-sm font-medium text-gray-700">
                                     Past 7 days performance
@@ -263,7 +275,7 @@ const LandingPage = () => {
                                 </p>
 
                             </div>
-                            
+
                         }
 
 
@@ -324,8 +336,8 @@ const LandingPage = () => {
                                         <div className="w-1/2">Total liquidity:</div>
                                         <div className="w-1/2 text-right">{(amt - (amt * .1)).toFixed(5)}</div>
                                     </div>
-                                   
-                                    
+
+
 
 
 
@@ -340,11 +352,11 @@ const LandingPage = () => {
                             <div class="flex flex-col space-y-4" ref={containerRef} onChange={handleCheckboxes}>
                                 <label class="flex items-center">
                                     <input type="checkbox" required={true} class="form-checkbox h-4 w-4 text-gray-600" />
-                                    <span class="ml-2 text-gray-700 text-sm">I understand this is an experiential alpha software release not intended for significant amounts of value. I use this tool and associated tools at my own risk and hold harmless anyone associated with NetworkNation.org</span>
+                                    <span class="ml-2 text-gray-700 text-sm">I understand this is an experimental alpha software release not intended for significant amounts of value. I use this tool and associated tools at my own risk and hold harmless any contributor to this project.</span>
                                 </label>
                                 <label class="flex items-center">
                                     <input type="checkbox" required={true} class="form-checkbox h-4 w-4 text-gray-600" />
-                                    <span class="ml-2 text-gray-700 text-sm">By using this free, open source, tool I understand and agree to any and all terms published on this site and to the software license detailed in the <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">repository</a>. I understand I'm donating to a Network Nation and adding value to a ThorChain LP Savers vault. Read more
+                                    <span class="ml-2 text-gray-700 text-sm">By using this free, open source, tool I understand and agree to any and all terms published on this site and to the software license detailed in the <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">repository</a>. I understand I'm donating to a Network Nation and adding value to a ThorChain LP Savers vault. <a href="https://erikvoorhees.medium.com/an-introduction-to-thorchain-for-bitcoiners-3f621bf0028e" className='underline'>Read more</a>
                                     </span>
                                 </label>
                             </div>
@@ -358,6 +370,8 @@ const LandingPage = () => {
 
 
                         <div>
+
+
                             <button
                                 type="submit"
                                 className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
@@ -365,7 +379,14 @@ const LandingPage = () => {
                                 Add Liquidity
                             </button>
                         </div>
+                        
                     </form>
+                    <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+
+<ToggleText />
+
+
+</div>
                 </div>
             </div>
         </div>
