@@ -18,7 +18,7 @@ export const SignInWithWalletButton = () => {
 
     const [open, setOpen] = useState<boolean>(false);
     const message = (
-        <>Connect to the Binance Smart Chain or Testnet before Connecting your Wallet</>
+        <>Connect to the Mumbai Network or Testnet before Connecting your Wallet</>
     );
 
   
@@ -65,12 +65,12 @@ export const SignInWithWalletButton = () => {
     return (
         <>
             <ModalChain open={open} setOpen={setOpen} message={message} />
-            {user.connected || user.accessToken ? (
-                <button className="secondaryButton" onClick={disconnect}>
+            {user.connected ? (
+                <button className="secondaryButton text-white" onClick={disconnect}>
                     Disconnect Wallet
                 </button>
             ) : (
-                <button disabled={walletisConnecting} className="primaryButton" onClick={connect}>
+                <button disabled={walletisConnecting} className="primaryButton text-white" onClick={connect}>
                     {walletisConnecting ? "Connecting..." : "Connect Wallet"}
                 </button>
             )}

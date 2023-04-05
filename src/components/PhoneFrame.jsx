@@ -32,7 +32,7 @@ export function PhoneFrame({
       <PlaceholderFrame className="pointer-events-none absolute inset-0 h-full w-full fill-gray-100" />
       <img
         src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-        alt="NetworkNation"
+        alt="NetworkNations"
       />
     </div>
   )

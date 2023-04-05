@@ -5,9 +5,11 @@ import { ethers } from 'ethers';
 async function getQuoteToDeposit (asset1 : string, amount : number, decimals : number) {
     try {
 
-        var ans = '';
+    var ans = '';
 
-        const amountInWei = amount * 10 ** decimals;
+    const amountInWei = Math.round(amount * 1e8);;
+
+    console.log(amountInWei, 'amountInWei');
 
     await axios.get("https://thornode.ninerealms.com/thorchain/quote/saver/deposit", 
             {

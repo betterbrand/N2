@@ -41,17 +41,25 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.ContextUpgradeable__factory>;
     getContractFactory(
+      name: "ERC20",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ERC20__factory>;
+    getContractFactory(
+      name: "IERC20Metadata",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IERC20Metadata__factory>;
+    getContractFactory(
       name: "IERC20",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.IERC20__factory>;
     getContractFactory(
-      name: "IROUTER",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.IROUTER__factory>;
-    getContractFactory(
       name: "NetworkNationSplit",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.NetworkNationSplit__factory>;
+    getContractFactory(
+      name: "TestErc20Token",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.TestErc20Token__factory>;
     getContractFactory(
       name: "IERC20",
       signerOrOptions?: ethers.Signer | FactoryOptions
@@ -105,20 +113,30 @@ declare module "hardhat/types/runtime" {
       signer?: ethers.Signer
     ): Promise<Contracts.ContextUpgradeable>;
     getContractAt(
+      name: "ERC20",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ERC20>;
+    getContractAt(
+      name: "IERC20Metadata",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IERC20Metadata>;
+    getContractAt(
       name: "IERC20",
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.IERC20>;
     getContractAt(
-      name: "IROUTER",
-      address: string,
-      signer?: ethers.Signer
-    ): Promise<Contracts.IROUTER>;
-    getContractAt(
       name: "NetworkNationSplit",
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.NetworkNationSplit>;
+    getContractAt(
+      name: "TestErc20Token",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.TestErc20Token>;
     getContractAt(
       name: "IERC20",
       address: string,

@@ -1,21 +1,19 @@
-
-
 import axios from 'axios';
 
-async function getSupportedTokens(){
-	var ans=''
-    await axios.get("https://dev-api.thorswap.net/universal/currenciesFull")
-    .then(function(response){
-    	ans=response.data
-    	return ans
-    })
-    .catch(function(error){
-    	ans=error
-        return ans
-    });
-    return ans  
+async function getSupportedTokens() {
+  let ans = [];
+  try {
+      const response = await axios.get("https://midgard.ninerealms.com/v2/pools");
+      const data = response.data;
+      // Filter the list to show only assets without any extra characters
+      ans = data.filter(token => !token.asset.includes("-") && !token.asset.includes(":"));
+  } catch (error) {
+      console.log(error);
+  }
+  return ans;
 }
-export function gettokens(){
-  const tokens= getSupportedTokens()
-  return tokens
+
+export async function gettokens() {
+  const tokens = await getSupportedTokens();
+  return tokens;
 }

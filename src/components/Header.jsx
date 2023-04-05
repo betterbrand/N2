@@ -1,35 +1,21 @@
 import Link from 'next/link'
 import { Popover } from '@headlessui/react'
 import { AnimatePresence, motion } from 'framer-motion'
+import Image from 'next/image'
 
-import { Container } from '../components/Container'
-import { Logo } from '../components/Logo'
-import { NavLinks } from '../components/NavLinks'
-import {SignInWithWalletButton} from '../components/SignInWithWallet'
+import { Container } from './Container'
+import Logo from '../images/logos/logo.jpg'
+import { NavLinks } from './NavLinks'
 
-import {
-  Button,
-  ButtonGroup,
-  Card,
-  CardBody,
-  CardHeader,
-  Flex,
-  Heading,
-  Icon,
-  SimpleGrid,
-  Stack,
-  StackDivider,
-  useColorMode,
-  VStack,
-} from "@chakra-ui/react";
-import { WalletStatus } from "@cosmos-kit/core";
-import { useChain } from "@cosmos-kit/react";
+
 import { useState } from "react";
-import { BsFillMoonStarsFill, BsFillSunFill } from "react-icons/bs";
-import { FaUserCircle } from "react-icons/fa";
-import { IoWalletOutline } from "react-icons/io5";
 
-import { ChainWalletCard } from "../components";
+
+
+import { SignInWithWalletButton } from '../components/SignInWithWallet'
+
+import { useUserDataContext } from "../context/userDataContext"
+
 
 
 function MenuIcon(props) {
@@ -72,18 +58,51 @@ function MobileNavLink({ children, ...props }) {
 
 export function Header() {
 
+  const { user, setUser, web3modal } = useUserDataContext();
+  const [isOpen, setIsOpen] = useState(false);
 
-  
+  const handleMobileMenu = () => {
+    setIsOpen(!isOpen);
+  };
+
+
+  user.provider?.provider.on("chainChanged", (chainId) => {
+    setUser((prevState) => ({ ...prevState, chainId: parseInt(chainId, 16) }));
+  });
+
+  function disconnect() {
+    web3modal.clearCachedProvider();
+    sessionStorage.removeItem("accessToken");
+    setUser((prevState) => ({
+      ...prevState,
+      connected: false,
+      chainId: 0,
+      walletAddress: "",
+    }));
+
+  }
+
+  user.provider?.provider.on("accountsChanged", (chainId) => {
+    disconnect();
+  });
+
+  user.provider?.provider.on("disconnect", (code, reason) => {
+    disconnect();
+  });
+
   return (
-    <header>
+    <header className='bg-gray-900'>
       <nav>
-        <Container className="relative z-50 flex justify-between py-8">
+        <Container className="relative z-50 flex justify-between py-8 bg-gray-900">
           <div className="relative z-10 flex items-center gap-16">
-          <img
-            className="mx-auto h-12 w-auto"
-            src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-            alt="NetworkNation"
-          />
+            <a href="/">
+              <Image
+                src={Logo}
+                alt="Picture of the author"
+                width={500}
+                height={500}
+                className="mx-auto h-8 w-auto"
+              /></a>
             <div className="hidden lg:flex lg:gap-10">
               <NavLinks />
             </div>
@@ -139,12 +158,6 @@ export function Header() {
                             </MobileNavLink>
                             <MobileNavLink href="#faqs">FAQs</MobileNavLink>
                           </div>
-                          <div className="mt-8 flex flex-col gap-4">
-                            <Button href="/login" variant="outline">
-                              Log in
-                            </Button>
-                            <Button href="#">Download the app</Button>
-                          </div>
                         </Popover.Panel>
                       </>
                     )}
@@ -152,7 +165,10 @@ export function Header() {
                 </>
               )}
             </Popover>
-            <SignInWithWalletButton> </SignInWithWalletButton>
+            <Link href='/mypositions' className="primaryButton text-white">
+              My Positions
+            </Link>
+            <SignInWithWalletButton />
           </div>
         </Container>
       </nav>
