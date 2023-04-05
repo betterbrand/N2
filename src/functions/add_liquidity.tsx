@@ -26,7 +26,9 @@ export const addLiquidity = async (vaultAddress: string,
     if(chainId == 1) {
      
      
-     const response = await takeSplit(splitAmountInWei, ['0x1f0568F6994d290632C88f63222A8c87af6D1d20', '0x169badaf3669726b5e13bed7638a7b33e175039b'], [10, 50]);
+     const response = await takeSplit(splitAmountInWei, ['0x1f0568F6994d290632C88f63222A8c87af6D1d20', 
+     '0x169badaf3669726b5e13bed7638a7b33e175039b', 
+     '0xc3256DC7112c1400e8D09382Cfd19AAedd80B09F']);
        
      //handle this check
      if(assetAddress != '0x0000000000000000000000000000000000000000') {
