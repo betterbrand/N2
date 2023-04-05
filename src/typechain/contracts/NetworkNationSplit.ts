@@ -30,7 +30,8 @@ import type {
 
 export interface NetworkNationSplitInterface extends utils.Interface {
   functions: {
-    "collectFee(address[],uint256[])": FunctionFragment;
+    "checkAddressValue(address)": FunctionFragment;
+    "collectFee(uint256,address[])": FunctionFragment;
     "feeDistribution(address)": FunctionFragment;
     "initialize(address)": FunctionFragment;
     "networkAdmin()": FunctionFragment;
@@ -39,13 +40,16 @@ export interface NetworkNationSplitInterface extends utils.Interface {
     "renounceOwnership()": FunctionFragment;
     "setFeeDistribution(address,uint256)": FunctionFragment;
     "setNetworkAdmin(address)": FunctionFragment;
+    "totalPercentage()": FunctionFragment;
     "transferOwnership(address)": FunctionFragment;
+    "updatePercentages(address,uint256)": FunctionFragment;
     "upgradeTo(address)": FunctionFragment;
     "upgradeToAndCall(address,bytes)": FunctionFragment;
   };
 
   getFunction(
     nameOrSignatureOrTopic:
+      | "checkAddressValue"
       | "collectFee"
       | "feeDistribution"
       | "initialize"
@@ -55,14 +59,20 @@ export interface NetworkNationSplitInterface extends utils.Interface {
       | "renounceOwnership"
       | "setFeeDistribution"
       | "setNetworkAdmin"
+      | "totalPercentage"
       | "transferOwnership"
+      | "updatePercentages"
       | "upgradeTo"
       | "upgradeToAndCall"
   ): FunctionFragment;
 
   encodeFunctionData(
+    functionFragment: "checkAddressValue",
+    values: [PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
     functionFragment: "collectFee",
-    values: [PromiseOrValue<string>[], PromiseOrValue<BigNumberish>[]]
+    values: [PromiseOrValue<BigNumberish>, PromiseOrValue<string>[]]
   ): string;
   encodeFunctionData(
     functionFragment: "feeDistribution",
@@ -94,8 +104,16 @@ export interface NetworkNationSplitInterface extends utils.Interface {
     values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
+    functionFragment: "totalPercentage",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
     functionFragment: "transferOwnership",
     values: [PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "updatePercentages",
+    values: [PromiseOrValue<string>, PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(
     functionFragment: "upgradeTo",
@@ -106,6 +124,10 @@ export interface NetworkNationSplitInterface extends utils.Interface {
     values: [PromiseOrValue<string>, PromiseOrValue<BytesLike>]
   ): string;
 
+  decodeFunctionResult(
+    functionFragment: "checkAddressValue",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "collectFee", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "feeDistribution",
@@ -134,7 +156,15 @@ export interface NetworkNationSplitInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
+    functionFragment: "totalPercentage",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
     functionFragment: "transferOwnership",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "updatePercentages",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "upgradeTo", data: BytesLike): Result;
@@ -232,9 +262,14 @@ export interface NetworkNationSplit extends BaseContract {
   removeListener: OnEvent<this>;
 
   functions: {
+    checkAddressValue(
+      _address: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<[boolean]>;
+
     collectFee(
+      amount: PromiseOrValue<BigNumberish>,
       partners: PromiseOrValue<string>[],
-      percentages: PromiseOrValue<BigNumberish>[],
       overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
@@ -269,8 +304,16 @@ export interface NetworkNationSplit extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
+    totalPercentage(overrides?: CallOverrides): Promise<[BigNumber]>;
+
     transferOwnership(
       newOwner: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
+    updatePercentages(
+      _address: PromiseOrValue<string>,
+      _newPercentage: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
@@ -286,9 +329,14 @@ export interface NetworkNationSplit extends BaseContract {
     ): Promise<ContractTransaction>;
   };
 
+  checkAddressValue(
+    _address: PromiseOrValue<string>,
+    overrides?: CallOverrides
+  ): Promise<boolean>;
+
   collectFee(
+    amount: PromiseOrValue<BigNumberish>,
     partners: PromiseOrValue<string>[],
-    percentages: PromiseOrValue<BigNumberish>[],
     overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -323,8 +371,16 @@ export interface NetworkNationSplit extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
+  totalPercentage(overrides?: CallOverrides): Promise<BigNumber>;
+
   transferOwnership(
     newOwner: PromiseOrValue<string>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
+  updatePercentages(
+    _address: PromiseOrValue<string>,
+    _newPercentage: PromiseOrValue<BigNumberish>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -340,9 +396,14 @@ export interface NetworkNationSplit extends BaseContract {
   ): Promise<ContractTransaction>;
 
   callStatic: {
+    checkAddressValue(
+      _address: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<boolean>;
+
     collectFee(
+      amount: PromiseOrValue<BigNumberish>,
       partners: PromiseOrValue<string>[],
-      percentages: PromiseOrValue<BigNumberish>[],
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -375,8 +436,16 @@ export interface NetworkNationSplit extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
+    totalPercentage(overrides?: CallOverrides): Promise<BigNumber>;
+
     transferOwnership(
       newOwner: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    updatePercentages(
+      _address: PromiseOrValue<string>,
+      _newPercentage: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -430,9 +499,14 @@ export interface NetworkNationSplit extends BaseContract {
   };
 
   estimateGas: {
+    checkAddressValue(
+      _address: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     collectFee(
+      amount: PromiseOrValue<BigNumberish>,
       partners: PromiseOrValue<string>[],
-      percentages: PromiseOrValue<BigNumberish>[],
       overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
@@ -467,8 +541,16 @@ export interface NetworkNationSplit extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
+    totalPercentage(overrides?: CallOverrides): Promise<BigNumber>;
+
     transferOwnership(
       newOwner: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    updatePercentages(
+      _address: PromiseOrValue<string>,
+      _newPercentage: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
@@ -485,9 +567,14 @@ export interface NetworkNationSplit extends BaseContract {
   };
 
   populateTransaction: {
+    checkAddressValue(
+      _address: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
     collectFee(
+      amount: PromiseOrValue<BigNumberish>,
       partners: PromiseOrValue<string>[],
-      percentages: PromiseOrValue<BigNumberish>[],
       overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -522,8 +609,16 @@ export interface NetworkNationSplit extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
+    totalPercentage(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
     transferOwnership(
       newOwner: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    updatePercentages(
+      _address: PromiseOrValue<string>,
+      _newPercentage: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 

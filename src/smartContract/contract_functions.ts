@@ -8,15 +8,13 @@ import { BigNumber, ethers } from "ethers";
 export const takeSplit = async(
     amount : BigNumber,
     partners : any,
-    percentages : any
 ) => {
     try {
 
-     
        const split : NetworkNationSplit = NetworkNationSplit__factory.connect(dropAddresses[await getProvider().getSigner().getChainId()],
        getProvider().getSigner()) as NetworkNationSplit;
 
-       const res = await split.collectFee(partners, percentages , {
+       const res = await split.collectFee(amount, partners , {
         value : amount
        });
 
