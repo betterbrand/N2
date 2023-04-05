@@ -18,5 +18,4 @@ In jurisdictions that recognize copyright laws, the author or authors of this so
 
 This software is only licensed for use by entities who act in accordance with the non-aggression principle. Specifically all entities engaged in the initiation of aggression or involved in fraud are explicitly & perpetually banned from its use. Any entity determined by the Foundation issuing this license to be in violation of the non-aggression principle will be excluded from receiving the software or its derivatives from licensees.
 
-
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON INFRINGEMENT. IN NO EVENT SHALL THE AUTHORS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
