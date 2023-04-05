@@ -2,10 +2,13 @@
   "name": "at-donation-server",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://betterbrand.github.io/N2/master",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "lint": "next lint",
     "test": "jest",
     "eject": "react-scripts eject",
@@ -85,5 +88,9 @@
   "engines": {
     "node": "18.x",
     "npm": "8.x"
-  }
+  },
+  "description": "This is free and unencumbered software released into the public domain.",
+  "main": "next.config.js",
+  "author": "",
+  "license": "ISC"
 }
