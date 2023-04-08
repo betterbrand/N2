@@ -164,27 +164,33 @@ const getInboundAddress = async () => {
           <FontAwesomeIcon icon={faChevronDown} />
         </div>
       </div>
-      <div class="flex items-center mb-2">
-                                        <div class="w-1/2">Redeem Value:</div>
-                                        <div class="w-1/2 text-right">{positionInETH} ETH</div>
+      <div>
+        <table className="table-auto, border-collapse, mt-5">
+            <tr>
+              <td className="p-2">Deposit Value:</td>
+              <td className="p-2">{depositValue} {selectedOption}</td>
+            </tr>
+            <tr>
+              <td className="p-2">Redeem Value</td>
+              <td className="p-2">{positionInETH} {selectedOption}</td>
+            </tr>
+            <tr>
+              <td className="p-2">Growth:</td>
+              <td className="p-2">{growthPercentage} %</td>
+            </tr>        
+            <tr>
+              <td className="p-3" colSpan={2}><hr /></td>
+            </tr>
+            <tr>
+            <td className="p-2">Outbound Fee:</td>
+            <td className="p-2">{outBoundFee} {selectedOption}</td>  
+            </tr>
+            <tr>
+            <td className="p-2">Withdrawal Amount:</td>
+            <td className="p-2">{withdrawalAmount} {selectedOption}</td>  
+            </tr>                    
+        </table>
       </div>
-      <div class="flex items-center mb-2">
-                                        <div class="w-1/2">Deposit Value:</div>
-                                        <div class="w-1/2 text-right">{depositValue} ETH</div>
-      </div>
-      <div class="flex items-center mb-2">
-                                        <div class="w-1/2">Growth Percentage:</div>
-                                        <div class="w-1/2 text-right">{growthPercentage} ETH</div>
-      </div>
-      <div class="flex items-center mb-2">
-                                        <div class="w-1/2">Outbound Fee:</div>
-                                        <div class="w-1/2 text-right">{outBoundFee} ETH</div>
-      </div>
-      <div class="flex items-center mb-2">
-                                        <div class="w-1/2">Withdawal Amount:</div>
-                                        <div class="w-1/2 text-right">{withdrawalAmount} ETH</div>
-      </div>
-
       <div className="flex justify-between mt-4">
               {/* <input
                 className="border border-gray-300 px-4 py-2 rounded-l w-full"

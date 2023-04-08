@@ -11,9 +11,7 @@
     "deploy": "gh-pages -d build",
     "lint": "next lint",
     "test": "jest",
-    "eject": "react-scripts eject",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "eject": "react-scripts eject"
   },
   "dependencies": {
     "@emotion/react": "11.10.5",
@@ -51,6 +49,7 @@
     "ethers": "^5.7.2",
     "fast-fuzzy": "^1.12.0",
     "focus-visible": "^5.2.0",
+    "fontawesome": "^5.6.3",
     "framer-motion": "^6.5.1",
     "juno-network": "0.9.0",
     "next": "13.1.6",
@@ -74,7 +73,6 @@
     "web-vitals": "^2.1.4",
     "web3": "^1.7.4",
     "web3modal": "1.9.7"
-    
   },
   "devDependencies": {
     "@types/node": "18.11.18",
