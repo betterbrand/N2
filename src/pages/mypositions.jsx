@@ -164,26 +164,37 @@ const getInboundAddress = async () => {
           <FontAwesomeIcon icon={faChevronDown} />
         </div>
       </div>
-      <div class="flex items-center mb-2">
-                                        <div class="w-1/2">Redeem Value:</div>
-                                        <div class="w-1/2 text-right">{positionInETH} ETH</div>
-      </div>
-      <div class="flex items-center mb-2">
-                                        <div class="w-1/2">Deposit Value:</div>
-                                        <div class="w-1/2 text-right">{depositValue} ETH</div>
-      </div>
-      <div class="flex items-center mb-2">
-                                        <div class="w-1/2">Growth Percentage:</div>
-                                        <div class="w-1/2 text-right">{growthPercentage} %</div>
-      </div>
-      <div class="flex items-center mb-2">
-                                        <div class="w-1/2">Outbound Fee:</div>
-                                        <div class="w-1/2 text-right">{outBoundFee} ETH</div>
-      </div>
-      <div class="flex items-center mb-2">
-                                        <div class="w-1/2">Withdawal Amount:</div>
-                                        <div class="w-1/2 text-right">{withdrawalAmount} ETH</div>
-      </div>
+
+<div>
+<table className="table-auto w-full">
+  <tbody>
+    <tr>
+      <td className="px-2">Deposit Value:</td>
+      <td className="px-2 text-right">{depositValue} {position.asset}</td>
+    </tr>
+    <tr>
+      <td className="px-2">Redeem Value:</td>
+      <td className="px-2 text-right">{positionInETH} {position.asset}</td>
+    </tr>
+    <tr>
+      <td className="px-2">Growth Percentage:</td>
+      <td className="px-2 text-right">{growthPercentage} %</td>
+    </tr>
+    <tr>
+      <td className="px-2 py-2" colSpan={2}><hr /></td>
+    </tr>
+    <tr>
+      <td className="px-2">Outbound Fee:</td>
+      <td className="px-2 text-right">{outBoundFee} ETH</td>
+    </tr>
+    <tr>
+      <td className="px-2">Withdrawal Amount:</td>
+      <td className="px-2 text-right">{withdrawalAmount} ETH</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
 
       <div className="flex justify-between mt-4">
               {/* <input
