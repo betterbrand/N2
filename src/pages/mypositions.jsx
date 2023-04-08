@@ -174,7 +174,7 @@ const getInboundAddress = async () => {
       </div>
       <div class="flex items-center mb-2">
                                         <div class="w-1/2">Growth Percentage:</div>
-                                        <div class="w-1/2 text-right">{growthPercentage} ETH</div>
+                                        <div class="w-1/2 text-right">{growthPercentage} %</div>
       </div>
       <div class="flex items-center mb-2">
                                         <div class="w-1/2">Outbound Fee:</div>
