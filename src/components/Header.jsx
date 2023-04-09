@@ -104,7 +104,7 @@ export function Header() {
                 className="mx-auto h-8 w-auto"
               /></a>
             <div className="hidden lg:flex lg:gap-10">
-              <NavLinks />
+              {/* <NavLinks /> */}
             </div>
           </div>
           <div className="flex items-center gap-6">
