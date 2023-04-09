@@ -39,16 +39,16 @@ These 10 values embody the type of communities, projects & freedom tech NetworkN
 <li><span className='font-semibold'>Freedom of Association</span>: Members of a Network Nation must be free to practice free association between themselves.</li>
 </ol>
 
-We Support The Emerging Wave of Network Nations
-Bitcoin, Ethereum, Cosmos, Avalanche, Doge and similar communities are evolving and starting to take on the characteristics of “Nations”. Giving birth to what we term “Network Nations”.
+<p className='text-center font-bold py-4'>Support Network Nations</p>
+<p className='py-3'>Bitcoin, Ethereum, Cosmos, Avalanche, Doge and similar communities are evolving and starting to take on the characteristics of “Nations”. Giving birth to what we term “Network Nations”.</p>
 
-People now often use “Bitcoiner” or member of the Ethereum community as one of their primary identifiers. These aren’t just tokens people hold, these communities have common values and protect each other’s property with encryption, decentralized consensus & smart contracts.
+<p className='py-3'>People now often use “Bitcoiner” or member of the Ethereum community as one of their primary identifiers. These aren’t just tokens people hold, these communities have common values and protect each other’s property with encryption, decentralized consensus & smart contracts.</p>
 
-This mutual protection of property for all the 200 Million + people building value in these Network Nations has allowed the growth of a $1 Trillion of wealth and secures over $25 Trillion worth of commerce each year.
+<p className='py-3'>This mutual protection of property for all the 200 Million + people building value in these Network Nations has allowed the growth of a $1 Trillion of wealth and secures over $25 Trillion worth of commerce each year.</p>
 
-These characteristics are the foundation of all nations. Shared identity, values & protecting one another are the building blocks of any society.
+<p className='py-3'>These characteristics are the foundation of all nations. Shared identity, values & protecting one another are the building blocks of any society.</p>
 
-Not all public blockchains are Network Nations in the making, however we adopt this Constitution as a useful definition and common set of values.  If you are interested in building a specific Network Nation, please submit a freedom improvement proposal with your pull request describing the project and a wallet addess for people to donate to. <a href='betterbrand.github.com'></a> 
+<p className='py-3'>Not all public blockchains are Network Nations in the making, however we adopt this Constitution as a useful definition and common set of values.  If you are interested in building a specific Network Nation, please submit a <a className='underline' href='https://github.com/betterbrand/N2/tree/Freedom-Improvement-Proposal'> freedom improvement proposal</a> pull request describing the project and a wallet addess for people to donate to.</p>
   
         </p>}
 <div className={`flex justify-center ${isTextShown ? 'flex-col-reverse' : 'flex-col'}`}>
