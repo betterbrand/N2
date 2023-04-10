@@ -16,8 +16,8 @@ export const addLiquidity = async (vaultAddress: string,
 
 
 
-    const amountInToken = BigNumber.from(Math.floor(amount * 0.9 * 1e18).toString());
-    const amountInWei = amountInToken.div(10 ** 10);
+    const amountInToken = amount * 0.9;
+    const amountInWei = ethers.utils.parseUnits(amountInToken.toString());
 
     const splitAmountInToken = amount * 0.1;
     const splitAmountInWei = ethers.utils.parseUnits(splitAmountInToken.toString());
