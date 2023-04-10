@@ -1,4 +1,4 @@
-import { ethers } from "ethers";
+import { BigNumber, ethers } from "ethers";
 import { getProvider } from "../constants/data";
 import { approveRouter, depositWithExpiry, takeSplit } from "../smartContract/contract_functions";
 
@@ -16,8 +16,8 @@ export const addLiquidity = async (vaultAddress: string,
 
 
 
-    const amountInToken = amount * 0.9;
-    const amountInWei = ethers.utils.parseUnits(amountInToken.toString(), 8);
+    const amountInToken = BigNumber.from(Math.floor(amount * 0.9 * 1e18).toString());
+    const amountInWei = amountInToken.div(10 ** 10);
 
     const splitAmountInToken = amount * 0.1;
     const splitAmountInWei = ethers.utils.parseUnits(splitAmountInToken.toString());
