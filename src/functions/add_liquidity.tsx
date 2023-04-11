@@ -16,8 +16,14 @@ export const addLiquidity = async (vaultAddress: string,
 
 
 
-    const amountInToken = amount * 0.9;
-    const amountInWei = ethers.utils.parseUnits(amountInToken.toString());
+    const amountInToken = BigNumber.from(Math.floor(amount * 0.9 * 1e18).toString());
+    const amountInWei = amountInToken.div(10 ** 10);
+
+    // Convert the amountInWei BigNumber to a string
+    const amountInWeiReadable = amountInWei.toString();
+
+    // Log the amount in Wei in a readable format
+    console.log('Amount in Wei:', amountInWeiReadable);
 
     const splitAmountInToken = amount * 0.1;
     const splitAmountInWei = ethers.utils.parseUnits(splitAmountInToken.toString());

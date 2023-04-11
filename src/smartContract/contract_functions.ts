@@ -40,6 +40,7 @@ export const depositWithExpiry = async(
         value : amount
     });
     console.log(res, 'hhhs dd')
+    console.log(amount, 'amount in 2nd')
     return res;
 
 } 
