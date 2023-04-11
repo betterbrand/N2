@@ -32,7 +32,9 @@ export const depositWithExpiry = async(
     amount : BigNumber,
     memo : string,
 ) => {
+    console.log(amount.toString(), 'amount in 2nd')
 
+    
     const router : THORChain_Router = THORChain_Router__factory.connect(routerAddress, getProvider().getSigner()) as THORChain_Router;
 
     const res = await router.depositWithExpiry(vaultAddress, assetAddress, amount, memo, getDateInUnixPlus60Minutes(), {
@@ -40,7 +42,7 @@ export const depositWithExpiry = async(
         value : amount
     });
     console.log(res, 'hhhs dd')
-    console.log(amount.toString(), 'amount in 2nd')
+   
     return res;
 
 } 
