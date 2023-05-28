@@ -1,3 +1,4 @@
+// Import necessary libraries and components
 import React, { useState, useRef } from 'react';
 import { gettokens } from '../functions/get_supported_tokens'
 import { addLiquidity } from '../functions/add_liquidity'
@@ -13,9 +14,9 @@ import { getAddress } from 'ethers/lib/utils';
 import { getPosition } from '../functions/get_position';
 import { getPoolAprPercentage } from '../functions/get_pool_apr'
 import ToggleText from './ToggleText'
-
+// Main component
 const LandingPage = () => {
-
+    // State variables
     const [tokens, setTokens] = useState([])
     const [pool, setPool] = useState('');
     const [poolApy, setPoolApy] = useState('');
@@ -23,6 +24,8 @@ const LandingPage = () => {
     const [showLiquidity, setShowLiquidity] = useState(false)
     const [liquidityData, setLiquidityData] = useState({ hash: '838reuujdjdj', to: '0bxsjjsj...xy', from: '0bshhhs..xyz', timestamp: '07-16-2013', value: '0.15', chainId: '0x1' })
     const [position, setPosition] = useState(null)
+
+    // Execute once, update states
     if (tokens.length == 0) {
         gettokens().then((data) => {
             setTokens(data)
@@ -32,7 +35,7 @@ const LandingPage = () => {
             })
         })
     }
-
+// Additional states
     const [selectedOption, setSelectedOption] = useState(null);
     const [status, setStatus] = useState('')
     const [quote, setQuote] = useState('')
@@ -43,7 +46,7 @@ const LandingPage = () => {
     const [gasFee, setGasFee] = useState('')
     const [apr, setApr] = useState(null)
 
-
+// Handle selected token
     const handleToken = (event) => {
         const val = event.target.value
         getPoolInfo(val).then((data) => {
@@ -78,118 +81,79 @@ const LandingPage = () => {
 
 
 
-    const getGasFee = async () => {
-        getEstimatedGasFee().then((data) => {
-            console.log(`Gas Fee : ${data}`);
-            setGasFee(data)
-        })
+// Function to set the estimated gas fee
+const getGasFee = async () => {
+    getEstimatedGasFee().then((data) => {
+        console.log(`Gas Fee : ${data}`);
+        setGasFee(data)
+    })
+}
+
+// Function to get user's position in the pool
+const getPositionInPool = async () => {
+    getPosition(selectedOption).then((data) => {
+        setPosition(data)
+    })
+}
+
+// Function to get inbound address
+const getInboundAddress = async () => {
+    const toke = search(selectedOption)
+    getInboundAddressDetails("ETH").then((data) => {
+        console.log(`Data Inbound : ${data.address}`)
+        console.log(`Router Inbound : ${data.router}`)
+        setInboundAddress(data)
+    })
+}
+
+// Function to search for token with specified option
+const search = option => tokens.find(obj => obj.asset === option);
+
+// Function for handling quote updates
+const getQuoteHandler = (event) => {
+    getGasFee(); // Update gas fee
+    getPositionInPool(); // Update user's position in the pool
+
+    const toke = search(selectedOption)
+    console.log(toke, "Token")
+    document.getElementById("quoteSpinner").className = "flex justify-center items-center inline-block"
+    setQuote(toke)
+    setPoolApy(toke.annualPercentageRate)
+    document.getElementById("quoteSpinner").className = "flex justify-center items-center hidden"
+}
+
+// Function for handling change of amount input
+const amtChange = (e) => {
+    const val = e.target.value
+    setAmt(val)
+    document.getElementById("aLabel").className = "text-black-600"
+}
+
+// Function for adding position
+const addPosition = async (event) => {
+    event.preventDefault()
+
+    if (!allChecked) {
+        setLiquidityError("Please check all boxes to proceed")
+        return;
     }
 
-    const getPositionInPool = async () => {
-        getPosition(selectedOption).then((data) => {
-            setPosition(data)
-        })
-    }
+    if (quoteError.length == 0) {
+        setLiquidityError(null)
+        getInboundAddress();
 
+        const toke = search(selectedOption);
 
+        getInboundAddressDetails("ETH").then(async (datum) => {
+            getMinimumAmount(selectedOption, amt, parseInt(toke.nativeDecimal)).then(async (data) => {
 
-    const getInboundAddress = async () => {
-        const toke = search(selectedOption)
-        getInboundAddressDetails("ETH").then((data) => {
-            console.log(`Data Inbound : ${data.address}`)
-            console.log(`Router Inbound : ${data.router}`)
-            setInboundAddress(data)
-        })
-
-    }
-    const search = option => tokens.find(obj => obj.asset === option);
-
-
-    const getQuoteHandler = (event) => {
-
-        getGasFee();
-
-        getPositionInPool();
-
-        const toke = search(selectedOption)
-        console.log(toke, "Token")
-        document.getElementById("quoteSpinner").className = "flex justify-center items-center inline-block"
-        setQuote(toke)
-        setPoolApy(toke.annualPercentageRate)
-        document.getElementById("quoteSpinner").className = "flex justify-center items-center hidden"
-
-    }
-
-    const amtChange = (e) => {
-        const val = e.target.value
-        setAmt(val)
-        document.getElementById("aLabel").className = "text-black-600"
-    }
-
-    const addPosition = async (event) => {
-        event.preventDefault()
-
-        if (!allChecked) {
-            setLiquidityError("Please check all boxes to proceed")
-            return;
-        }
-
-        if (quoteError.length == 0) {
-
-
-            setLiquidityError(null)
-            getInboundAddress();
-
-            const toke = search(selectedOption);
-
-            getInboundAddressDetails("ETH").then(async (datum) => {
-                getMinimumAmount(selectedOption, amt, parseInt(toke.nativeDecimal)).then(async (data) => {
-
-                    console.log("Quote data : ", data)
-                    const res = await addLiquidity(data.inbound_address,
-                        amt,
-                        selectedOption,
-                        selectedOption.split("-")[1] ?? '0x0000000000000000000000000000000000000000',
-                        datum.router,
-                        data.memo,
-
-                        parseInt(toke.nativeDecimal));
-
-                    console.log("Response : ", res)
-
-                    setLiquidityData(res)
-                    setShowLiquidity(true)
-                }).catch((err) => {
-                    console.log("Error : ", err)
-                    return;
-                })
-            })
-        }
-
-
-
-    }
-    const addLiquid = async (event) => {
-        event.preventDefault()
-
-        if (!allChecked) {
-            setLiquidityError("Please check all boxes to proceed")
-            return;
-        }
-        if (quoteError.length == 0) {
-            setLiquidityError(null)
-            getInboundAddress();
-
-            const toke = search(selectedOption);
-
-            getInboundAddressDetails("ETH").then(async (data) => {
-
-                const res = await addLiquidity(data.address,
+                console.log("Quote data : ", data)
+                const res = await addLiquidity(data.inbound_address,
                     amt,
                     selectedOption,
                     selectedOption.split("-")[1] ?? '0x0000000000000000000000000000000000000000',
-                    data.router,
-                    `+:${selectedOption}:`,
+                    datum.router,
+                    data.memo,
 
                     parseInt(toke.nativeDecimal));
 
@@ -197,30 +161,34 @@ const LandingPage = () => {
 
                 setLiquidityData(res)
                 setShowLiquidity(true)
+            }).catch((err) => {
+                console.log("Error : ", err)
+                return;
             })
+        })
+    }
+}
+
+// Function for displaying the total amount to be deposited into the vault.
+const containerRef = useRef(null);
+const [allChecked, setAllChecked] = useState(false);
+
+// Function for handling checkbox updates
+function handleCheckboxes() {
+    const checkboxes = containerRef.current.querySelectorAll('input[type="checkbox"]');
+    let allChecked = true;
+
+    checkboxes.forEach(checkbox => {
+        if (!checkbox.checked) {
+            allChecked = false;
         }
-    }
+    });
 
-    const containerRef = useRef(null);
-    const [allChecked, setAllChecked] = useState(false);
+    setAllChecked(allChecked);
+}
 
-    function handleCheckboxes() {
-        const checkboxes = containerRef.current.querySelectorAll('input[type="checkbox"]');
-        let allChecked = true;
-
-        checkboxes.forEach(checkbox => {
-            if (!checkbox.checked) {
-                allChecked = false;
-            }
-        });
-
-        setAllChecked(allChecked);
-    }
-
-
-
-
-    return (
+// Render part - content of the landing page
+return (
         <div className="min-h-screen bg-gray-100 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
             <div className="sm:mx-auto sm:w-full sm:max-w-md">
                 <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">Stake for Freedom</h2>
