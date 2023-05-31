@@ -328,13 +328,13 @@ const LandingPage = () => {
                                         <div className="w-1/2">Total Deposit:</div>
                                         <div className="w-1/2 text-right">{amt}</div>
                                     </div>
-                                    <div className="flex items-center mb-2">
+                                    {/* <div className="flex items-center mb-2">
                                         <div className="w-1/2">Network Nation Split:</div>
                                         <div className="w-1/2 text-right">{(amt * 0.1).toFixed(5)}</div>
-                                    </div>
+                                    </div> */}
                                     <div className="flex items-center mb-2">
                                         <div className="w-1/2">Total liquidity:</div>
-                                        <div className="w-1/2 text-right">{(amt - (amt * .1)).toFixed(5)}</div>
+                                        <div className="w-1/2 text-right">{amt}</div>
                                     </div>
 
 
