@@ -86,8 +86,8 @@
     "typescript": "4.9.5"
   },
   "engines": {
-    "node": "18.x",
-    "npm": "8.x"
+    "node": "20.x",
+    "npm": "10.x"
   },
   "description": "This is free and unencumbered software released into the public domain.",
   "main": "next.config.js",
