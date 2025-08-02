@@ -11,9 +11,7 @@
     "deploy": "gh-pages -d build",
     "lint": "next lint",
     "test": "jest",
-    "eject": "react-scripts eject",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "eject": "react-scripts eject"
   },
   "dependencies": {
     "@emotion/react": "11.10.5",
@@ -52,8 +50,8 @@
     "fast-fuzzy": "^1.12.0",
     "focus-visible": "^5.2.0",
     "framer-motion": "^6.5.1",
-    "juno-network": "0.9.0",
-    "next": "13.1.6",
+    "juno-network": "^0.18.1",
+    "next": "^15.4.5",
     "pg": "^8.9.0",
     "postcss-focus-visible": "^6.0.4",
     "react": "18.2.0",
@@ -63,18 +61,17 @@
     "react-icons": "4.7.1",
     "react-modal": "^3.16.1",
     "react-phone-number-input": "^3.2.17",
-    "react-scripts": "5.0.1",
+    "react-scripts": "^0.0.0",
     "tailwindcss": "^3.2.1",
     "ts-import": "^4.0.0-beta.10",
     "tw-elements": "^1.0.0-alpha12",
     "typechain": "^8.1.1",
     "use-debounce": "^8.0.4",
     "uuid": "^8.3.2",
-    "wagmi": "^0.11.2",
+    "wagmi": "^2.16.1",
     "web-vitals": "^2.1.4",
-    "web3": "^1.7.4",
+    "web3": "^4.16.0",
     "web3modal": "1.9.7"
-    
   },
   "devDependencies": {
     "@types/node": "18.11.18",
@@ -83,7 +80,7 @@
     "gh-pages": "^5.0.0",
     "postcss": "^8.4.21",
     "tailwindcss": "^3.2.4",
-    "typescript": "4.9.5"
+    "typescript": "5.6.3"
   },
   "engines": {
     "node": "20.x",
